@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-touch cmp_exp &&
-./viewer.py $1 &
-vim -n -S "cmds.vim" -R -o cmp_exp &&
-./clean.sh &&
-rm cmp_exp
+touch viewer/__viewer_cache__/cmp_exp &&
+cd viewer/ &&
+./viewer.py "$@" &
+vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp &&
+./scripts/clean.sh &&
+rm viewer/__viewer_cache__/cmp_exp
