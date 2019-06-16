@@ -96,8 +96,9 @@ def main():
             r.run()
         except KeyboardInterrupt:
             logger.info("Exiting now")
-        except:
-            r.reset()
+        #except Exception as e:
+        #    logger.info('Caught exception: {0}'.format(str(e.message)))
+        #    r.reset()
 
 if __name__ == '__main__':
     main()

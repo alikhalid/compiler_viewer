@@ -85,7 +85,7 @@ class check_changes:
 
     def _update_files_md5(self, update_from):
         for f in self._modified_files:
-            self._files_md5 = update_from[f]
+            self._files_md5[f] = update_from[f]
 
     def _can_update_md5(self, files_md5):
         for k, v in files_md5.items():
