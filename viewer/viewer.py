@@ -39,7 +39,7 @@ class runner:
 
     def _chdir(self):
         self._wd = os.getcwd()
-        os.chdir(self.build_dir)
+        os.chdir(self._build_dir)
 
     def _log_info(self):
         self._logger.info('Starting runner')
@@ -51,10 +51,10 @@ class runner:
 
     def _print_msg(self, success, msg=""):
         if success:
-            self.logger.info('Compilation successful')
+            self._logger.info('Compilation successful')
             write_to_file(self._fname, "Compilation successful!")
         else:
-            self.logger.info('Compilation failed')
+            self._logger.info('Compilation failed')
             write_to_file(self._fname, "Compilation failed!\n{0}".format(msg))
 
     def run(self):
@@ -63,7 +63,7 @@ class runner:
                 if self._cc.can_reset():
                     self._cc.reset()
                 write_to_file(self._fname, 'Compiling...')
-                passed, curr_out = run_sp(self.cmd)
+                passed, curr_out = run_sp(self._cmd)
                 self._print_msg(passed, curr_out)
 
             time.sleep(1)

@@ -21,7 +21,7 @@ def diff_dicts(a, b):
 
     return diff
 
-class chanck_changes:
+class check_changes:
     def __init__(self, directory):
         self._wd = directory
         self._all_files = get_all_files(self._wd)
@@ -38,7 +38,7 @@ class chanck_changes:
 
     def can_reset(self):
         num_files = len(get_all_files(self._wd))
-        return local_num_files != self._num_files
+        return num_files != self._num_files
 
     def can_update(self):
         return True if self._mtime_check() and self._md5_check() else False
@@ -57,18 +57,18 @@ class chanck_changes:
     def _get_mtime(self):
         data = {}
         for f in self._all_files:
-            data[f] = os.path.gettime(f)
+            data[f] = os.path.getmtime(f)
 
         return data
 
     def _update_files_mtime(self, update_from):
         for f in self._modified_files:
-            self._files_mtime = update_from[f]
+            self._files_mtime[f] = update_from[f]
 
     def _md5_check(self):
         files_md5 = self._get_md5()
         changed = False
-        if self._can_update_md5():
+        if self._can_update_md5(files_md5):
             self._logger.info('md5 changed')
             changed = True
             self._update_files_md5(files_md5)
@@ -85,10 +85,10 @@ class chanck_changes:
 
     def _update_files_md5(self, update_from):
         for f in self._modified_files:
-            self._files_mtime = update_from[f]
+            self._files_md5 = update_from[f]
 
     def _can_update_md5(self, files_md5):
-        for k, v in files_md5:
+        for k, v in files_md5.items():
             if self._files_md5[k] != v:
                 return True
 
