@@ -22,8 +22,8 @@ def diff_dicts(a, b):
     return diff
 
 class check_changes:
-    def __init__(self, directory):
-        self._wd = directory
+    def __init__(self, args):
+        self._wd = args['project_dir']
         self._all_files = get_all_files(self._wd)
         self._num_files = len(self._all_files)
         self._modified_files = self._all_files
