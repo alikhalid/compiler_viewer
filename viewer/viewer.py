@@ -1,8 +1,11 @@
 #!/usr/bin/python
 
+from logger import *
+from watch_file_change import check_changes
+
 import argparse as ap
 import subprocess as sp
-import os, time
+import os, time, sys
 
 def read_file(fname):
     out = []
@@ -22,40 +25,79 @@ def run_sp(cmd, wd=os.getcwd()):
 
 class runner:
     def __init__(self, args):
-        self.j = args['j']
-        self.build_dir = args['build_dir']
-        self.fname = os.path.join(os.getcwd(), 'cmp_exp')
-        self.cmd = 'make -j{0}'.format(self.j)
+        self._j = args['j']
+        self._project_dir = args['project_dir']
+        self._build_dir = os.path.join(self._project_dir, args['build_dir'])
+        self._src_dir = os.path.join(self._project_dir, args['src_file_dir'])
+        self._fname = os.path.join(os.getcwd(), '__viewer_cache__/cmp_exp')
+        self._cmd = 'make -j{0}'.format(self._j)
+        self._cc = check_changes(self._src_dir)
+        self._logger = get_logger()
 
+        self._chdir()
+        self._log_info()
+
+    def _chdir(self):
+        self._wd = os.getcwd()
         os.chdir(self.build_dir)
 
-    def print_msg(self, success, msg=""):
+    def _log_info(self):
+        self._logger.info('Starting runner')
+        self._logger.info('Project dir: {}'.format(self._project_dir))
+        self._logger.info('Build dir: {}'.format(self._build_dir))
+        self._logger.info('Src dir: {}'.format(self._src_dir))
+        self._logger.info('Make cmd: {}'.format(self._cmd))
+        self._logger.info('Changed cwd from: {0} to: {1}'.format(self._wd, os.getcwd()))
+
+    def _print_msg(self, success, msg=""):
         if success:
-            write_to_file(self.fname, "Compilation successful!")
+            self.logger.info('Compilation successful')
+            write_to_file(self._fname, "Compilation successful!")
         else:
-            write_to_file(self.fname, "Compilation failed!\n{0}".format(msg))
+            self.logger.info('Compilation failed')
+            write_to_file(self._fname, "Compilation failed!\n{0}".format(msg))
 
     def run(self):
         while True:
-            time.sleep(1)
-            passed, curr_out = run_sp(self.cmd)
-            self.print_msg(passed, curr_out)
+            if self._cc.can_update():
+                if self._cc.can_reset():
+                    self._cc.reset()
+                write_to_file(self._fname, 'Compiling...')
+                passed, curr_out = run_sp(self.cmd)
+                self._print_msg(passed, curr_out)
 
-    def clean(self):
-        os.remove(self.fname)
+            time.sleep(1)
+
+    def reset(self):
+        self._logger.info('Resetting runner')
+        os.chdir(self._wd)
+        os.remove(self._fname)
+
+def cmd_args():
+    parser = ap.ArgumentParser()
+    parser.add_argument('-d', '--project-dir', required=False, default=os.getcwd(), help='Project home dir')
+    parser.add_argument('-b', '--build-dir', required=False, default='build', help='Dir with makefiles')
+    parser.add_argument('-s', '--src-file-dir', required=False, default='', help='Source file dir')
+    parser.add_argument('-j', required=False, default=1, help='-j option for make command')
+
+    return  vars(parser.parse_args())
 
 def main():
-    parser = ap.ArgumentParser()
-    parser.add_argument('-d', '--build-dir', required=False, default=os.getcwd(), help='Directory with make files')
-    parser.add_argument('-j', required=False, default=1, help='-j option for make command')
-    args = vars(parser.parse_args())
+    args = cmd_args()
+    init_logger()
 
-    r = runner(args)
-    try:
-        r.run()
-        r.clean()
-    except KeyboardInterrupt:
-        print("Exiting now")
+    logger = get_logger()
+    logger.info('Starting compiler viewer')
+    logger.info('running from dir: {}'.format(os.getcwd()))
+
+    while True:
+        r = runner(args)
+        try:
+            r.run()
+        except KeyboardInterrupt:
+            logger.info("Exiting now")
+        except:
+            r.reset()
 
 if __name__ == '__main__':
     main()
