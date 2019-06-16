@@ -45,11 +45,13 @@ class check_changes:
 
     def _mtime_check(self):
         files_mtime = self._get_mtime()
+        self._logger.debug('_mtime_check:::files_mtime: {}'.format(files_mtime))
         changed = False
         if files_mtime != self._files_mtime:
             self._logger.info('mtime changed')
             changed = True
-            self._modified_filed = diff_dicts(files_mtime, self._files_mtime)
+            self._modified_files = diff_dicts(files_mtime, self._files_mtime)
+            self._logger.debug('_mtime_check::self._modified_files: {}'.format(self._modified_files))
             self._update_files_mtime(files_mtime)
 
         return changed
@@ -65,8 +67,11 @@ class check_changes:
         for f in self._modified_files:
             self._files_mtime[f] = update_from[f]
 
+        self._logger.debug('_update_files_mtime::self._files_mtime: {}'.format(self._files_mtime))
+
     def _md5_check(self):
         files_md5 = self._get_md5()
+        self._logger.debug('_md5_check::files_md5: {}'.format(files_md5))
         changed = False
         if self._can_update_md5(files_md5):
             self._logger.info('md5 changed')
@@ -87,6 +92,8 @@ class check_changes:
         for f in self._modified_files:
             self._files_md5[f] = update_from[f]
 
+        self._logger.debug('_update_files_mdf::self._files_md5: {}'.format(self._files_md5))
+
     def _can_update_md5(self, files_md5):
         for k, v in files_md5.items():
             if self._files_md5[k] != v:
@@ -96,24 +103,3 @@ class check_changes:
 
     def _reset_modified_files(self):
         self._modified_files = []
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
