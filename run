@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+mkdir viewer/__viewer_cache__ &&
 touch viewer/__viewer_cache__/cmp_exp &&
 cd viewer/ &&
 ./viewer.py "$@" &
