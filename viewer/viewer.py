@@ -36,8 +36,10 @@ class runner:
             time.sleep(1)
 
 def cmd_args():
-    parser = ap.ArgumentParser()
-    parser.add_argument('-d', '--project-dir', required=True, help='Project home dir')
+    parser = ap.ArgumentParser('Compiler viewer')
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('-d', '--project-dir', required=True, help='Project home dir')
+    group.add_argument('-i', '--include-dir', required=True, help='Include dir fro interactive mode')
     parser.add_argument('-b', '--build-dir', required=False, default='', help='Dir with makefiles')
     parser.add_argument('-a', '--asm', required=False, default=None, help='generate asm for file')
 
