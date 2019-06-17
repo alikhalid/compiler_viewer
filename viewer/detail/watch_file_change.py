@@ -31,17 +31,27 @@ class check_changes:
         self._files_md5 = {k : 0 for k in self._all_files}
 
         self._logger = get_logger()
+        self._log_info()
 
-    def reset(self):
+    def _log_info(self):
+        self._logger.info('Init watch_file_change')
+        self._logger.info('\tWorking dir: {}'.format(self._wd))
+
+    def can_update(self):
+        if self._mtime_check() and self._md5_check():
+            if self._can_reset:
+                self._reset
+            return True
+
+        return False
+
+    def _reset(self):
         self._logger.info("Number of files changed resetting state")
         self.__init__(self._wd)
 
-    def can_reset(self):
+    def _can_reset(self):
         num_files = len(get_all_files(self._wd))
         return num_files != self._num_files
-
-    def can_update(self):
-        return True if self._mtime_check() and self._md5_check() else False
 
     def _mtime_check(self):
         files_mtime = self._get_mtime()

@@ -20,15 +20,20 @@ def get_all_files(directory, name):
 
 class objdump:
     def __init__(self, args):
-        self._asm = args['asm']
         build_dir = os.path.join(args['project_dir'], args['build_dir'])
-        self._obj_file = self._find_file(build_dir, args['obj_file'])
+        self._obj_file = self._find_file(build_dir, args['asm'])
         self._cmd = 'objdump --insn-width=16 -l -C -d -S -M intel {0}'.format(self._obj_file)
 
         self._logger = get_logger()
         self._log_info()
 
+    def _log_info(self):
+        self._logger.info('Init objdumo')
+        self._logger.info('\tobjdump for file: {}'.format(self._obj_file))
+        self._logger.info('\tobjdump cmd: {}'.format(self._cmd))
+
     def __call__(self):
+        self._logger.info('Running objdump')
         return run_sp(self._cmd)
 
     def _find_file(self, directory, fname):
@@ -36,12 +41,4 @@ class objdump:
         if len(all_files) == 1:
             return all_files[0]
 
-        self._asm = False
-        return ''
-
-    def _log_info(self):
-        self._logger.info('objdump for file: {}'.format(self._obj_file))
-        self._logger.info('objdump cmd: {}'.format(self._cmd))
-
-
-#args = {'asm' : True, 'obj_file' : 'example.out', 'build_dir' : '/home/ali/temp/test_vim_viewer'}
+        assert False, 'Expected to find the file to generate assembly for'
