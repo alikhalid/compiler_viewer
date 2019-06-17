@@ -37,8 +37,8 @@ class runner:
 
 def cmd_args():
     parser = ap.ArgumentParser()
-    parser.add_argument('-d', '--project-dir', required=False, default=os.getcwd(), help='Project home dir')
-    parser.add_argument('-b', '--build-dir', required=False, default='build', help='Dir with makefiles')
+    parser.add_argument('-d', '--project-dir', required=True, help='Project home dir')
+    parser.add_argument('-b', '--build-dir', required=False, default='', help='Dir with makefiles')
     parser.add_argument('-a', '--asm', required=False, default=None, help='generate asm for file')
 
     return  vars(parser.parse_args())
