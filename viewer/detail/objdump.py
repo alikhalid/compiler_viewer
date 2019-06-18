@@ -20,7 +20,7 @@ def get_all_files(directory, name):
 
 class objdump:
     def __init__(self, args):
-        build_dir = os.path.join(args['project_dir'], args['build_dir'])
+        build_dir = args['build_dir']
         self._obj_file = self._find_file(build_dir, args['asm'])
         self._cmd = 'objdump --insn-width=16 -l -C -d -S -M intel {0}'.format(self._obj_file)
 

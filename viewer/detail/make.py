@@ -12,7 +12,7 @@ def run_sp(cmd, wd=os.getcwd()):
 
 class make:
     def __init__(self, args):
-        self._build_dir = os.path.join(args['project_dir'], args['build_dir'])
+        self._build_dir = args['build_dir']
         self._cmd = 'make -j1'
 
         self._logger = get_logger()

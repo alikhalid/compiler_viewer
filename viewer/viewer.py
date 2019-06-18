@@ -1,16 +1,46 @@
 #!/usr/bin/python
 
 from detail import *
-import argparse as ap
 import os, time
 
-class runner:
+class i_runner:
     def __init__(self, args):
         self._logger = get_logger()
         self._log_info()
 
         self._printer = printer()
-        self._cc = check_changes(args)
+        self._cc = check_changes(args['project_dir'])
+        self._build = build(args)
+
+        self._generate_asm = args['asm']
+        if self._generate_asm:
+            self._objdump = objdump(args)
+
+    def _log_info(self):
+        self._logger.info('Init i_runner')
+
+    def run(self):
+        while True:
+            if self._cc.can_update():
+                self._printer.compiling()
+                make_st, curr_out = self._build()
+
+                if make_st and self._generate_asm:
+                    objdump_st, out = self._objdump()
+                    if objdump_st:
+                        curr_out = out
+
+                self._printer.print_msg(make_st, curr_out)
+
+            time.sleep(1)
+
+class d_runner:
+    def __init__(self, args):
+        self._logger = get_logger()
+        self._log_info()
+
+        self._printer = printer()
+        self._cc = check_changes(args['project_dir'])
         self._make = make(args)
 
         self._generate_asm = args['asm']
@@ -18,7 +48,7 @@ class runner:
             self._objdump = objdump(args)
 
     def _log_info(self):
-        self._logger.info('Init runner')
+        self._logger.info('Init d_runner')
 
     def run(self):
         while True:
@@ -35,33 +65,29 @@ class runner:
 
             time.sleep(1)
 
-def cmd_args():
-    parser = ap.ArgumentParser('Compiler viewer')
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('-d', '--project-dir', required=True, help='Project home dir')
-    group.add_argument('-i', '--include-dir', required=True, help='Include dir fro interactive mode')
-    parser.add_argument('-b', '--build-dir', required=False, default='', help='Dir with makefiles')
-    parser.add_argument('-a', '--asm', required=False, default=None, help='generate asm for file')
-
-    return  vars(parser.parse_args())
+def get_runner(args):
+    if args['mode'] == 'INTERACTIVE':
+        return i_runner(args)
+    elif args['mode'] == 'DEVELOPER':
+        return d_runner(args)
 
 def main():
     args = cmd_args()
     init_logger()
 
     logger = get_logger()
+    logger.info(args)
     logger.info('Starting compiler viewer')
     logger.info('running from dir: {}'.format(os.getcwd()))
 
     while True:
-        r = runner(args)
+        r = get_runner(args)
         try:
             r.run()
         except KeyboardInterrupt:
             logger.info("Exiting now")
-        #except Exception as e:
-        #    logger.info('Caught exception: {0}'.format(str(e.message)))
-        #    r.reset()
+        except Exception as e:
+            logger.info('Caught exception: {0}'.format(str(e.message)))
 
 if __name__ == '__main__':
     main()

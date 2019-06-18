@@ -1,2 +1,3 @@
 *.pyc
 __viewer_cache__
+*.swp

@@ -3,11 +3,11 @@
 from logger import *
 
 class skeleton:
-    def __init__(self, args):
+    def __init__(self):
         self._fname = '__viewer_cache__/example.cpp'
 
-        #self._logger = get_logger()
-        #self._log_info()
+        self._logger = get_logger()
+        self._log_info()
 
     def _log_info(self):
         self._logger.info('Init skeleton')
@@ -22,8 +22,6 @@ class skeleton:
 #include <iostream>
 #include <string>
 #include <vector>
-#include <tuple>
-#include <type_traits>
 */
 
 int main(){
