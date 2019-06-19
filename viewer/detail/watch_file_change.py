@@ -3,13 +3,15 @@
 from logger import *
 import os, subprocess, glob, hashlib
 
-def get_all_files(directory):
+def get_all_files(dirs):
     pattern = ('.hpp', '.cpp')
     all_files = []
-    for base, _, fnames in os.walk(directory):
-        for fname in fnames:
-            if fname.endswith(pattern):
-                all_files.append(os.path.join(base, fname))
+
+    for directory in dirs:
+        for base, _, fnames in os.walk(directory):
+            for fname in fnames:
+                if fname.endswith(pattern):
+                    all_files.append(os.path.join(base, fname))
 
     return all_files
 
@@ -22,9 +24,10 @@ def diff_dicts(a, b):
     return diff
 
 class check_changes:
-    def __init__(self, directory):
-        self._wd = directory
-        self._all_files = get_all_files(self._wd)
+    def __init__(self, args):
+        self._args = args
+        self._watch_dirs = args['watch_dirs']
+        self._all_files = get_all_files(self._watch_dirs)
         self._num_files = len(self._all_files)
         self._modified_files = self._all_files
         self._files_mtime = {k : 0 for k in self._all_files}
@@ -35,7 +38,7 @@ class check_changes:
 
     def _log_info(self):
         self._logger.info('Init watch_file_change')
-        self._logger.info('\tWorking dir: {}'.format(self._wd))
+        self._logger.info('\tWorking dir: {}'.format(self._watch_dirs))
 
     def can_update(self):
         if self._mtime_check() and self._md5_check():
@@ -47,10 +50,10 @@ class check_changes:
 
     def _reset(self):
         self._logger.info("Number of files changed resetting state")
-        self.__init__(self._wd)
+        self.__init__(self._args)
 
     def _can_reset(self):
-        num_files = len(get_all_files(self._wd))
+        num_files = len(get_all_files(self._watch_dirs))
         return num_files != self._num_files
 
     def _mtime_check(self):

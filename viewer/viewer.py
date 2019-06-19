@@ -9,7 +9,7 @@ class i_runner:
         self._log_info()
 
         self._printer = printer()
-        self._cc = check_changes(args['project_dir'])
+        self._cc = check_changes(args)
         self._build = build(args)
 
         self._generate_asm = args['asm']
@@ -40,7 +40,7 @@ class d_runner:
         self._log_info()
 
         self._printer = printer()
-        self._cc = check_changes(args['project_dir'])
+        self._cc = check_changes(args)
         self._make = make(args)
 
         self._generate_asm = args['asm']
@@ -72,8 +72,8 @@ def get_runner(args):
         return d_runner(args)
 
 def main():
-    args = cmd_args()
     init_logger()
+    args = cmd_args()
 
     logger = get_logger()
     logger.info(args)
