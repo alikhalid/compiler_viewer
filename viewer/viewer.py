@@ -72,8 +72,8 @@ def get_runner(args):
         return d_runner(args)
 
 def main():
-    init_logger()
     args = cmd_args()
+    init_logger()
 
     logger = get_logger()
     logger.info(args)
