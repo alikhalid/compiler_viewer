@@ -1,9 +1,54 @@
 #!/usr/bin/env bash
 
-mkdir -p viewer/__viewer_cache__ &&
-touch viewer/__viewer_cache__/cmp_exp &&
-cd viewer/ &&
-./viewer.py "$@" &
-vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp &&
-./scripts/clean.sh &&
-rm viewer/__viewer_cache__/cmp_exp
+arr=("$@")
+
+function call_help()
+{
+    ./viewer/viewer.py -h
+}
+
+function init_viewer()
+{
+    echo Init viewer
+    mkdir -p viewer/__viewer_cache__
+    touch viewer/__viewer_cache__/cmp_exp
+}
+
+function init_example()
+{
+    echo Init example
+    ./scripts/skeleton.py
+}
+
+shopt -s nocasematch
+for i in "${arr[@]}"
+do
+   PARM=`echo $i | awk -F= '{print $1}'`
+   if [[ $PARM == '-h' ]]
+   then
+      call_help
+      exit
+   elif [[ $PARM == 'i' ]] || [[ $PARM == 'interactive' ]]
+   then
+       echo Running in interactive mode
+       init_viewer &&
+       init_example &&
+       cd viewer/ &&
+       ./viewer.py "$@" &
+       vim viewer/__viewer_cache__/example.cpp -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp &&
+       ./scripts/clean.sh
+       exit
+   elif [[ $PARM == 'd' ]] || [[ $PARM == 'developer' ]]
+   then
+       echo Running in developer mode
+       init_viewer &&
+       cd viewer/ &&
+       ./viewer.py "$@" &
+       vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp &&
+       ./scripts/clean.sh
+       exit
+   fi
+done
+
+echo Error: mode not found try I or D or -h
+exit 1
