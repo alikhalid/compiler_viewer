@@ -35,7 +35,8 @@ do
        init_example &&
        cd viewer/ &&
        ./viewer.py "$@" &
-       vim viewer/__viewer_cache__/example.cpp -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp &&
+       tmux split-window -v "vim viewer/__viewer_cache__/example.cpp"
+       vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp &&
        ./scripts/clean.sh
        exit
    elif [[ $PARM == 'd' ]] || [[ $PARM == 'developer' ]]
