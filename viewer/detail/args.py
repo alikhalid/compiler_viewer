@@ -10,7 +10,8 @@ def cmd_args():
     parser.add_argument('-i', '--include-dir', nargs='*', default=[], help='Include dir for interactive mode')
     parser.add_argument('-b', '--build-dir', required=False, default='', help='Dir with makefiles')
     parser.add_argument('-a', '--asm', nargs='*', required=False, default=None, help='generate asm for file')
-    parser.add_argument('-f', '--flags', nargs='*', required=False, default=[], help='flags for gcc without "-"')
+    parser.add_argument('-of', '--objdump-flags', nargs='*', required=False, default=[], help='flags for objdump without "-"')
+    parser.add_argument('-f', '--build-flags', nargs='*', required=False, default=[], help='flags for build without "-"')
 
     args = vars(parser.parse_args())
 
@@ -22,7 +23,6 @@ def cmd_args():
         args['project_dir'] = '__viewer_cache__'
         args['watch_dirs'] = [args['project_dir']]
         args['watch_dirs'].extend(args['include_dir'])
-        args['flags'] = ['-{}'.format(f) for f in args['flags']]
 
     elif args['mode'].lower() in ['d', 'developer']:
         args['mode'] = 'DEVELOPER'
@@ -33,8 +33,12 @@ def cmd_args():
                 args['asm'] = None
         args['watch_dirs'] = [args['project_dir']]
     else:
-        assert False, 'Unknown mode'
+        assert False, 'Unknown mode try either: I or D'
 
-    args['build_dir'] = os.path.join(args['project_dir'], args['build_dir'])
+    if not os.path.isdir(args['build_dir']):
+        args['build_dir'] = os.path.join(args['project_dir'], args['build_dir'])
+
+    args['objdump_flags'] = ['-{}'.format(f) for f in args['objdump_flags']]
+    args['build_flags'] = ['-{}'.format(f) for f in args['build_flags']]
 
     return args

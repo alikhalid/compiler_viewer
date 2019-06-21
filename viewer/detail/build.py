@@ -11,12 +11,12 @@ def run_sp(cmd, wd=os.getcwd()):
 
 class build:
     def __init__(self, args):
-        self._args = ' '.join(args['flags'])
+        self._flags = ' '.join(args['build_flags'])
         self._include_dir = ''
         if args['include_dir']:
             self._include_dir = '-I {}'.format(' '.join(args['include_dir']))
         self._fname = 'example.cpp'
-        self._gcc_cmd = 'g++ {0} {1} {2}'.format(self._args, self._include_dir, self._fname)
+        self._gcc_cmd = 'g++ {0} {1} {2}'.format(self._flags, self._include_dir, self._fname)
 
         self._logger = get_logger()
         self._log_info()
