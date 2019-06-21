@@ -20,36 +20,41 @@ function init_example()
     ./scripts/skeleton.py
 }
 
-shopt -s nocasematch
-for i in "${arr[@]}"
-do
-   PARM=`echo $i | awk -F= '{print $1}'`
-   if [[ $PARM == '-h' ]]
-   then
-      call_help
-      exit
-   elif [[ $PARM == 'i' ]] || [[ $PARM == 'interactive' ]]
-   then
-       echo Running in interactive mode
-       init_viewer &&
-       init_example &&
-       cd viewer/ &&
-       ./viewer.py "$@" &
-       tmux split-window -v "vim viewer/__viewer_cache__/example.cpp"
-       vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp &&
-       ./scripts/clean.sh
-       exit
-   elif [[ $PARM == 'd' ]] || [[ $PARM == 'developer' ]]
-   then
-       echo Running in developer mode
-       init_viewer &&
-       cd viewer/ &&
-       ./viewer.py "$@" &
-       vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp &&
-       ./scripts/clean.sh
-       exit
-   fi
-done
+function run()
+{
+    shopt -s nocasematch
+    for i in "${arr[@]}"
+    do
+       PARM=`echo $i | awk -F= '{print $1}'`
+       if [[ $PARM == '-h' ]]
+       then
+          call_help
+          exit
+       elif [[ $PARM == 'i' ]] || [[ $PARM == 'interactive' ]]
+       then
+           echo Running in interactive mode
+           init_viewer &&
+           init_example &&
+           cd viewer/ &&
+           ./viewer.py "${arr[@]}" &
+           tmux split-window -v "vim viewer/__viewer_cache__/example.cpp"
+           vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp &&
+           ./scripts/clean.sh
+           exit
+       elif [[ $PARM == 'd' ]] || [[ $PARM == 'developer' ]]
+       then
+           echo Running in developer mode
+           init_viewer &&
+           cd viewer/ &&
+           ./viewer.py "${arr[@]}" &
+           vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp &&
+           ./scripts/clean.sh
+           exit
+       fi
+    done
 
-echo Error: mode not found try I or D or -h
-exit 1
+    echo Error: mode not found try I or D or -h
+    exit 1
+}
+
+run
