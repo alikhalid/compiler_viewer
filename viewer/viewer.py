@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from detail import *
-import os, time, sys
+import os, time, sys, traceback
 
 class i_runner:
     def __init__(self, args):
@@ -80,6 +80,7 @@ def main():
     logger.info('Starting compiler viewer')
     logger.info('running from dir: {}'.format(os.getcwd()))
 
+    trys = 10
     while True:
         r = get_runner(args)
         try:
@@ -89,6 +90,10 @@ def main():
             sys.exit(0)
         except Exception as e:
             logger.info('Caught exception: {0}'.format(str(e.message)))
+            trys -= 1
+            if trys == 0:
+                logger.error(traceback.format_exc())
+                sys.exit(1)
 
 if __name__ == '__main__':
     main()

@@ -47,5 +47,9 @@ class printer:
 
     def _print_failure(self, msg):
         self._logger.info('Compilation failed')
-        parsed_msg = self._parse_error(msg)
+        try:
+            parsed_msg = self._parse_error(msg)
+        except:
+            self._logger.error('Unable to parse compiler error!')
+            parsed_msg = msg
         write_to_file(self._fname, "Compilation failed!\n{0}".format(parsed_msg))
