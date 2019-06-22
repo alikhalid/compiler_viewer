@@ -34,7 +34,7 @@ class objdump:
         self._log_info()
 
     def _log_info(self):
-        self._logger.info('Init objdumo')
+        self._logger.info('Init objdump')
         self._logger.info('\tobjdump cmd: {}'.format(self._cmd))
 
     def __call__(self):
