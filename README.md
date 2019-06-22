@@ -2,6 +2,10 @@
 
 Instantly compile and show output of c++ project for quick feedback.
 
+* Press \<F5> in vim to force reload
+* Press \<F1> to jump to errors
+* Best experience with tmux
+
 ## Modes
 * Interactive mode
   * Requirements: gcc compiler
@@ -46,7 +50,6 @@ Instantly compile and show output of c++ project for quick feedback.
 *  -of , --objdump-flags [OBJDUMP_FLAGS [OBJDUMP_FLAGS ...]]
     * Used to pass flags to objdump
 
-
-* Best results with tmux
-
 ## Screenshots
+![Alt text](/docs/compiler_viewer_developer_asm.PNG/?raw=true "Developer Mode ASM")
+![Alt text](/docs/compiler_viewer_developer_error.PNG/?raw=true "Developer Mode ERROR")
