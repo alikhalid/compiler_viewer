@@ -4,7 +4,6 @@ import argparse as ap
 import os, json
 
 def create_cfg(args):
-    args['config'] = args['config'] + '.json'
     with open(args['config'], 'w') as f:
         f.write(json.dumps(args, indent=4, sort_keys=True))
 
@@ -34,7 +33,9 @@ def cmd_args():
         else:
             create_cfg(args)
 
-    if args['mode'].lower() in ['i', 'interactive']:
+    if not args['mode']:
+        assert False, 'Mode must be defined'
+    elif args['mode'].lower() in ['i', 'interactive']:
         args['mode'] = 'INTERACTIVE'
         if args['asm'] != None:
             args['asm'] = 'a.out'

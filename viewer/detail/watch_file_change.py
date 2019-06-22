@@ -4,7 +4,7 @@ from logger import *
 import os, subprocess, glob, hashlib
 
 def get_all_files(dirs):
-    pattern = ('.hpp', '.cpp')
+    pattern = ('.hpp', '.cpp', '.h', '.c', '.cxx')
     all_files = []
 
     for directory in dirs:
