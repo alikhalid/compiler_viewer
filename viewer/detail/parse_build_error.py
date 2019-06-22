@@ -13,7 +13,7 @@ class parse_build_error:
         self._logger.info('Init parse_build_error')
 
     def _parse_error_str(self, err_str):
-        pattern = r'(.*):(\d+):(\d+):.*error:(.*)$'
+        pattern = r'(.*):(\d+):(\d+):\s+error:(.*)$'
         m = re.match(pattern, err_str)
         return '\n\nIn file   : {0}\nOn line   : {1}\nOn column : {2}\nerror     :{3}'.format(m.group(1), m.group(2), m.group(3), m.group(4))
 
