@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
 from logger import *
-from parse_build_error import parse_build_error
+from parse_error import parse_error
+from parse_asm import parse_asm
+
 import os
 
 def read_file(fname):
@@ -18,7 +20,8 @@ def write_to_file(fname, out):
 class printer:
     def __init__(self):
         self._fname = os.path.join(os.getcwd(), 'viewer/__viewer_cache__/cmp_exp')
-        self._parse_error = parse_build_error()
+        self._parse_error = parse_error()
+        self._parse_asm = parse_asm()
 
         self._logger = get_logger()
         self._log_info()
@@ -30,15 +33,19 @@ class printer:
         if success:
             self._print_success(msg)
         else:
-            self._print_failure(self._parse_error(msg))
+            self._print_failure(msg)
 
     def compiling(self):
         write_to_file(self._fname, 'Compiling...')
 
     def _print_success(self, msg):
         self._logger.info('Compilation successful')
-        write_to_file(self._fname, "Compilation successful!\n{0}".format(msg))
+        parsed_msg = msg
+        if msg:
+            parsed_msg = self._parse_asm(msg)
+        write_to_file(self._fname, "Compilation successful!\n{0}".format(parsed_msg))
 
     def _print_failure(self, msg):
         self._logger.info('Compilation failed')
-        write_to_file(self._fname, "Compilation failed!\n{0}".format(msg))
+        parsed_msg = self._parse_error(msg)
+        write_to_file(self._fname, "Compilation failed!\n{0}".format(parsed_msg))

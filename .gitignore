@@ -3,3 +3,5 @@ __viewer_cache__
 *.swp
 *.json
 *.out
+cmp_exp
+event.log
