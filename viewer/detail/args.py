@@ -3,8 +3,9 @@
 import argparse as ap
 import os, json
 
-def create_cfg(fname, args):
-    with open(fname + '.json', 'w') as f:
+def create_cfg(args):
+    args['config'] = args['config'] + '.json'
+    with open(args['config'], 'w') as f:
         f.write(json.dumps(args, indent=4, sort_keys=True))
 
 def load_cfg(fname):
@@ -31,7 +32,7 @@ def cmd_args():
         if os.path.isfile(args['config']):
             args = load_cfg(args['config'])
         else:
-            create_cfg(args['config'], args)
+            create_cfg(args)
 
     if args['mode'].lower() in ['i', 'interactive']:
         args['mode'] = 'INTERACTIVE'
