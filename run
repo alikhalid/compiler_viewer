@@ -35,18 +35,16 @@ function run()
            echo Running in interactive mode
            init_viewer &&
            init_example &&
-           cd viewer/ &&
-           ./viewer.py "${arr[@]}" &
+           ./viewer/viewer.py "${arr[@]}" &
            tmux split-window -v "vim -n -S 'scripts/cmds.vim' -R -M -o viewer/__viewer_cache__/cmp_exp"
            vim viewer/__viewer_cache__/example.cpp &&
            ./scripts/clean.sh
            exit
-       elif [[ $PARM == 'd' ]] || [[ $PARM == 'developer' ]]
+       elif [[ $PARM == 'd' ]] || [[ $PARM == 'developer' ]] ||  [[ $PARM == '-c' ]] || [[ $PARM == '--config' ]]
        then
            echo Running in developer mode
            init_viewer &&
-           cd viewer/ &&
-           ./viewer.py "${arr[@]}" &
+           ./viewer/viewer.py "${arr[@]}" &
            vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp &&
            ./scripts/clean.sh
            exit

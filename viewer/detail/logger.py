@@ -3,7 +3,7 @@
 import logging
 
 def init_logger():
-    logging.basicConfig(filename='__viewer_cache__/event.log', filemode='w', format='%(asctime)s %(message)s')
+    logging.basicConfig(filename='viewer/__viewer_cache__/event.log', filemode='w', format='%(asctime)s %(message)s')
 
 def get_logger():
     logger = logging.getLogger()

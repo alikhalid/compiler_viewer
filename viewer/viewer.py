@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from detail import *
-import os, time
+import os, time, sys
 
 class i_runner:
     def __init__(self, args):
@@ -86,6 +86,7 @@ def main():
             r.run()
         except KeyboardInterrupt:
             logger.info("Exiting now")
+            sys.exit(0)
         except Exception as e:
             logger.info('Caught exception: {0}'.format(str(e.message)))
 

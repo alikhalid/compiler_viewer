@@ -3,9 +3,21 @@
 import argparse as ap
 import os, json
 
+def create_cfg(fname, args):
+    with open(fname + '.json', 'w') as f:
+        f.write(json.dumps(args, indent=4, sort_keys=True))
+
+def load_cfg(fname):
+    args = {}
+    with open(fname, 'r') as f:
+        args = json.loads(f.read())
+
+    return args
+
 def cmd_args():
     parser = ap.ArgumentParser('Compiler viewer')
-    parser.add_argument('-m', '--mode', required=True, default='i', help='Interactive or developer mode')
+    parser.add_argument('-c', '--config', required=False, type=str, default=None, help='create config if file doesnt exist else load config in json')
+    parser.add_argument('-m', '--mode', required=False, default=None, help='Interactive or developer mode')
     parser.add_argument('-p', '--project-dir', help='Project home dir')
     parser.add_argument('-i', '--include-dir', nargs='*', default=[], help='Include dir for interactive mode')
     parser.add_argument('-b', '--build-dir', required=False, default='', help='Dir with makefiles')
@@ -15,12 +27,18 @@ def cmd_args():
 
     args = vars(parser.parse_args())
 
+    if args['config']:
+        if os.path.isfile(args['config']):
+            args = load_cfg(args['config'])
+        else:
+            create_cfg(args['config'], args)
+
     if args['mode'].lower() in ['i', 'interactive']:
         args['mode'] = 'INTERACTIVE'
         if args['asm'] != None:
             args['asm'] = 'a.out'
 
-        args['project_dir'] = '__viewer_cache__'
+        args['project_dir'] = 'viewer/__viewer_cache__'
         args['watch_dirs'] = [args['project_dir']]
         args['watch_dirs'].extend(args['include_dir'])
 

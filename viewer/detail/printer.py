@@ -17,7 +17,7 @@ def write_to_file(fname, out):
 
 class printer:
     def __init__(self):
-        self._fname = os.path.join(os.getcwd(), '__viewer_cache__/cmp_exp')
+        self._fname = os.path.join(os.getcwd(), 'viewer/__viewer_cache__/cmp_exp')
         self._parse_error = parse_build_error()
 
         self._logger = get_logger()

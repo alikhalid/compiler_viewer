@@ -27,4 +27,4 @@ class build:
 
     def __call__(self):
         self._logger.info('Running gcc')
-        return run_sp(self._gcc_cmd, '__viewer_cache__')
+        return run_sp(self._gcc_cmd, 'viewer/__viewer_cache__')
