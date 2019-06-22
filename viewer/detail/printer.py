@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from logger import *
+from parse_build_error import parse_build_error
 import os
 
 def read_file(fname):
@@ -17,6 +18,7 @@ def write_to_file(fname, out):
 class printer:
     def __init__(self):
         self._fname = os.path.join(os.getcwd(), '__viewer_cache__/cmp_exp')
+        self._parse_error = parse_build_error()
 
         self._logger = get_logger()
         self._log_info()
@@ -28,7 +30,7 @@ class printer:
         if success:
             self._print_success(msg)
         else:
-            self._print_failure(msg)
+            self._print_failure(self._parse_error(msg))
 
     def compiling(self):
         write_to_file(self._fname, 'Compiling...')

@@ -37,8 +37,8 @@ function run()
            init_example &&
            cd viewer/ &&
            ./viewer.py "${arr[@]}" &
-           tmux split-window -v "vim viewer/__viewer_cache__/example.cpp"
-           vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp &&
+           tmux split-window -v "vim -n -S 'scripts/cmds.vim' -R -M -o viewer/__viewer_cache__/cmp_exp"
+           vim viewer/__viewer_cache__/example.cpp &&
            ./scripts/clean.sh
            exit
        elif [[ $PARM == 'd' ]] || [[ $PARM == 'developer' ]]

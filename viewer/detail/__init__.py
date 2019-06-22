@@ -7,4 +7,3 @@ from make import make
 from objdump import objdump
 from printer import printer
 from build import build
-from skeleton import skeleton
