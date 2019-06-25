@@ -36,7 +36,7 @@ function run()
            init_viewer &&
            init_example &&
            ./viewer/viewer.py "${arr[@]}" &
-           tmux split-window -v "vim viewer/__viewer_cache__/example.cpp"
+           tmux split-window -h "vim viewer/__viewer_cache__/example.cpp"
            vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp &&
            ./scripts/clean.sh
            exit
