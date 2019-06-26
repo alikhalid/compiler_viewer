@@ -8,7 +8,7 @@ class i_runner:
         self._logger = get_logger()
         self._log_info()
 
-        self._printer = printer()
+        self._printer = printer(args)
         self._cc = check_changes(args)
         self._build = build(args)
 
@@ -39,7 +39,7 @@ class d_runner:
         self._logger = get_logger()
         self._log_info()
 
-        self._printer = printer()
+        self._printer = printer(args)
         self._cc = check_changes(args)
         self._make = make(args)
 
@@ -90,6 +90,7 @@ def main():
             sys.exit(0)
         except Exception as e:
             logger.info('Caught exception: {0}'.format(str(e.message)))
+            logger.error(traceback.format_exc())
             trys -= 1
             if trys == 0:
                 logger.error(traceback.format_exc())

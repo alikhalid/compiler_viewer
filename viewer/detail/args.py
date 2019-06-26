@@ -24,6 +24,7 @@ def cmd_args():
     parser.add_argument('-a', '--asm', nargs='*', required=False, default=None, help='generate asm for file')
     parser.add_argument('-of', '--objdump-flags', nargs='*', required=False, default=[], help='flags for objdump without "-"')
     parser.add_argument('-f', '--build-flags', nargs='*', required=False, default=[], help='flags for build without "-"')
+    parser.add_argument('-d', '--disable-parsing', action='store_true', required=False, default=False, help='Disable parsing of objdump and errors')
 
     args = vars(parser.parse_args())
 

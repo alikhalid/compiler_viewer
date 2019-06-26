@@ -5,7 +5,8 @@ from logger import *
 import re
 
 class parse_asm:
-    def __init__(self):
+    def __init__(self, args):
+        self._disable = args['disable_parsing']
         self._logger = get_logger()
         self._log_info()
 
@@ -32,6 +33,9 @@ class parse_asm:
         return re.sub(r'\n\s*\n', '\n\n', asm_parsed)
 
     def __call__(self, asm_strs):
+        if (self._disable):
+            return asm_strs
+
         self._logger.info('Running parse_asm')
 
         parsed_strs = ''

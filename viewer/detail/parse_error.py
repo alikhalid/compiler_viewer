@@ -5,7 +5,8 @@ from logger import *
 import re
 
 class parse_error:
-    def __init__(self):
+    def __init__(self, args):
+        self._disable = args['disable_parsing']
         self._logger = get_logger()
         self._log_info()
 
@@ -15,9 +16,13 @@ class parse_error:
     def _parse_error_str(self, err_str):
         pattern = r'(.*):(\d+):(\d+):\s+error:(.*)$'
         m = re.match(pattern, err_str)
-        return '\n\nIn file   : {0}\nOn line   : {1}\nOn column : {2}\nerror     :{3}'.format(m.group(1), m.group(2), m.group(3), m.group(4))
+        return '\n\nIn file   : {0}\nOn line   : {1}\nerror     :{2}'.format(m.group(1), m.group(3), m.group(4))
+        #return '\n\nIn file   : {0}\nOn line   : {1}\nOn column : {2}\nerror     :{3}'.format(m.group(1), m.group(2), m.group(3), m.group(4))
 
     def __call__(self, err_strs):
+        if (self._disable):
+            return asm_strs
+
         self._logger.info('Running parse_error')
 
         parsed_strs = ''
