@@ -1,3 +1,5 @@
+# WARNING - UNDER DEVELOPMENT
+
 # compiler_viewer
 
 Instantly compile and show output of c++ project for quick feedback.
@@ -53,3 +55,8 @@ Instantly compile and show output of c++ project for quick feedback.
 ## Screenshots
 ![Alt text](/docs/compiler_viewer_developer_asm.PNG/?raw=true "Developer Mode ASM")
 ![Alt text](/docs/compiler_viewer_developer_error.PNG/?raw=true "Developer Mode ERROR")
+
+## Upcoming Features
+* Better assembly parsing
+* a.out execution support
+* Vim debugger
