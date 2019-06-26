@@ -2,26 +2,22 @@
 
 arr=("$@")
 
-function call_help()
-{
+function call_help(){
     ./viewer/viewer.py -h
 }
 
-function init_viewer()
-{
+function init_viewer(){
     echo Init viewer
     mkdir -p viewer/__viewer_cache__
     touch viewer/__viewer_cache__/cmp_exp
 }
 
-function init_example()
-{
+function init_example(){
     echo Init example
     ./scripts/skeleton.py
 }
 
-function run()
-{
+function run(){
     shopt -s nocasematch
     for i in "${arr[@]}"
     do
