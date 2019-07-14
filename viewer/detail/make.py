@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from logger import *
+from .logger import *
 import subprocess as sp
 import os
 import sys

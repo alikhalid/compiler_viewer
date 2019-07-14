@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-from logger import *
-from parse_error import parse_error
-from parse_asm import parse_asm
+from .logger import *
+from .parse_error import parse_error
+from .parse_asm import parse_asm
 
 import os
 
