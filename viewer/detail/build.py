@@ -2,12 +2,20 @@
 
 from logger import *
 import subprocess as sp
-import os, sys
+import os
+import sys
+
 
 def run_sp(cmd, wd=os.getcwd()):
-    p = sp.Popen(cmd.split(), stdout=sp.PIPE, stderr=sp.PIPE, universal_newlines=True, cwd=wd)
+    p = sp.Popen(
+        cmd.split(),
+        stdout=sp.PIPE,
+        stderr=sp.PIPE,
+        universal_newlines=True,
+        cwd=wd)
     o, e = p.communicate()
     return (True, '') if not p.returncode else (False, str(e))
+
 
 class build:
     def __init__(self, args):
@@ -16,7 +24,8 @@ class build:
         if args['include_dir']:
             self._include_dir = '-I {}'.format(' '.join(args['include_dir']))
         self._fname = 'example.cpp'
-        self._gcc_cmd = 'g++ {0} -O3 {1} {2} -o a.out'.format(self._flags, self._include_dir, self._fname)
+        self._gcc_cmd = 'g++ {0} -O3 {1} {2} -o a.out'.format(
+            self._flags, self._include_dir, self._fname)
 
         self._logger = get_logger()
         self._log_info()
