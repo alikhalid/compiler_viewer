@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from logger import *
+from .logger import *
 import os
 import subprocess
 import glob
@@ -22,7 +22,7 @@ def get_all_files(dirs):
 
 def diff_dicts(a, b):
     diff = []
-    for k, v in a.items():
+    for k, v in list(a.items()):
         if v != b[k]:
             diff.append(k)
 
@@ -121,7 +121,7 @@ class check_changes:
                 self._files_md5))
 
     def _can_update_md5(self, files_md5):
-        for k, v in files_md5.items():
+        for k, v in list(files_md5.items()):
             if self._files_md5[k] != v:
                 return True
 
