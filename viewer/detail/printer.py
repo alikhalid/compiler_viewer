@@ -6,6 +6,7 @@ from parse_asm import parse_asm
 
 import os
 
+
 def read_file(fname):
     out = []
     with open(fname, 'r') as f:
@@ -13,13 +14,16 @@ def read_file(fname):
             out.append(line.strip())
     return out
 
+
 def write_to_file(fname, out):
     with open(fname, 'w') as f:
         f.write(out)
 
+
 class printer:
     def __init__(self, args):
-        self._fname = os.path.join(os.getcwd(), 'viewer/__viewer_cache__/cmp_exp')
+        self._fname = os.path.join(
+            os.getcwd(), 'viewer/__viewer_cache__/cmp_exp')
         self._parse_error = parse_error(args)
         self._parse_asm = parse_asm(args)
 
@@ -44,16 +48,20 @@ class printer:
         if msg:
             try:
                 parsed_msg = self._parse_asm(msg)
-            except:
+            except BaseException:
                 self._logger.error('Unable to parse assemby!')
                 parsed_msg = msg
-        write_to_file(self._fname, "Compilation successful!\n{0}".format(parsed_msg))
+        write_to_file(
+            self._fname,
+            "Compilation successful!\n{0}".format(parsed_msg))
 
     def _print_failure(self, msg):
         self._logger.info('Compilation failed')
         try:
             parsed_msg = self._parse_error(msg)
-        except:
+        except BaseException:
             self._logger.error('Unable to parse compiler error!')
             parsed_msg = msg
-        write_to_file(self._fname, "Compilation failed!\n{0}".format(parsed_msg))
+        write_to_file(
+            self._fname,
+            "Compilation failed!\n{0}".format(parsed_msg))

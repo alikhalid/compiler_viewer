@@ -1,7 +1,11 @@
 #!/usr/bin/python
 
 from detail import *
-import os, time, sys, traceback
+import os
+import time
+import sys
+import traceback
+
 
 class i_runner:
     def __init__(self, args):
@@ -34,6 +38,7 @@ class i_runner:
 
             time.sleep(1)
 
+
 class d_runner:
     def __init__(self, args):
         self._logger = get_logger()
@@ -65,11 +70,13 @@ class d_runner:
 
             time.sleep(1)
 
+
 def get_runner(args):
     if args['mode'] == 'INTERACTIVE':
         return i_runner(args)
     elif args['mode'] == 'DEVELOPER':
         return d_runner(args)
+
 
 def main():
     args = cmd_args()
@@ -95,6 +102,7 @@ def main():
             if trys == 0:
                 logger.error(traceback.format_exc())
                 sys.exit(1)
+
 
 if __name__ == '__main__':
     main()

@@ -4,6 +4,7 @@ from logger import *
 
 import re
 
+
 class parse_asm:
     def __init__(self, args):
         self._disable = args['disable_parsing']
@@ -42,6 +43,7 @@ class parse_asm:
         pattern = r'.*<.*>:|Disassembly.*:$|.*:\s+file\s+format.*$'
         for line in asm_strs.split('\n'):
             if not re.match(pattern, line):
-                parsed_strs += self._fix_indent_and_add_newline(self._clean_str(line))
+                parsed_strs += self._fix_indent_and_add_newline(
+                    self._clean_str(line))
 
         return self._remove_extra_newlines(parsed_strs).rstrip()

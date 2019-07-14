@@ -2,12 +2,21 @@
 
 from logger import *
 import subprocess as sp
-import os, sys, glob
+import os
+import sys
+import glob
+
 
 def run_sp(cmd, wd=os.getcwd()):
-    p = sp.Popen(cmd.split(), stdout=sp.PIPE, stderr=sp.PIPE, universal_newlines=True, cwd=wd)
+    p = sp.Popen(
+        cmd.split(),
+        stdout=sp.PIPE,
+        stderr=sp.PIPE,
+        universal_newlines=True,
+        cwd=wd)
     o, e = p.communicate()
     return (True, str(o)) if not p.returncode else (False, str(e))
+
 
 def get_all_files(directory, name):
     all_files = []
@@ -17,6 +26,7 @@ def get_all_files(directory, name):
                 all_files.append(os.path.join(base, fname))
 
     return all_files
+
 
 class objdump:
     def __init__(self, args):
@@ -29,7 +39,8 @@ class objdump:
         self._init = True
         build_dir = self._args['build_dir']
         self._obj_file = self._find_file(build_dir, self._args['asm'])
-        self._cmd = 'objdump --insn-width=16 {0} -l -C -d -S -M intel {1}'.format(self._flags, self._obj_file)
+        self._cmd = 'objdump --insn-width=16 {0} -l -C -d -S -M intel {1}'.format(
+            self._flags, self._obj_file)
 
         self._log_info()
 
