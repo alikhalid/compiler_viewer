@@ -5,14 +5,14 @@ from .logger import *
 import re
 
 
-class parse_asm:
+class ParseAsm:
     def __init__(self, args):
         self.__disable = args['disable_parsing']
         self.__logger = get_logger()
         self.__log_info()
 
     def __log_info(self):
-        self.__logger.info('Init parse_asm')
+        self.__logger.info('Init ParseAsm')
 
     def __clean_str(self, asm_str):
         comment_pattern = r'(.*)\s*#.*$'
@@ -37,7 +37,7 @@ class parse_asm:
         if (self.__disable):
             return asm_strs
 
-        self.__logger.info('Running parse_asm')
+        self.__logger.info('Running ParseAsm')
 
         parsed_strs = ''
         pattern = r'.*<.*>:|Disassembly.*:$|.*:\s+file\s+format.*$'

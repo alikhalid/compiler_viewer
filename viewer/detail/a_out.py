@@ -9,7 +9,7 @@ def run_sp(cmd, wd=os.getcwd()):
     o, e = p.communicate()
     return (True, '') if not p.returncode else (False, str(e))
 
-class a_out:
+class AOut:
     def __init__(self, args):
         self.__build_dir = args['build_dir']
         self.__cmd = './a.out > out'
@@ -18,8 +18,8 @@ class a_out:
         self.__log_info()
 
     def __log_info(self):
-        self.__logger.info('Init a_out')
+        self.__logger.info('Init AOut')
 
     def __call__(self):
-        self.__logger.info('Running a_out')
+        self.__logger.info('Running AOut')
         return run_sp(self.__cmd, 'viewer/__viewer_cache__')

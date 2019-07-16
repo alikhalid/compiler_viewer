@@ -5,14 +5,14 @@ from .logger import *
 import re
 
 
-class parse_error:
+class ParseError:
     def __init__(self, args):
         self.__disable = args['disable_parsing']
         self.__logger = get_logger()
         self.__log_info()
 
     def __log_info(self):
-        self.__logger.info('Init parse_error')
+        self.__logger.info('Init ParseError')
 
     def __parse_error_str(self, err_str):
         pattern = r'(.*):(\d+):(\d+):\s+error:(.*)$'
@@ -26,7 +26,7 @@ class parse_error:
         if (self.__disable):
             return asm_strs
 
-        self.__logger.info('Running parse_error')
+        self.__logger.info('Running ParseError')
 
         parsed_strs = ''
         err_pattern = r'.*error:.*'

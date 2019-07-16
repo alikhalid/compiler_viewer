@@ -29,7 +29,7 @@ def diff_dicts(a, b):
     return diff
 
 
-class check_changes:
+class CheckChanges:
     def __init__(self, args):
         self.__args = args
         self.__watch_dirs = args['watch_dirs']
@@ -43,7 +43,7 @@ class check_changes:
         self.__log_info()
 
     def __log_info(self):
-        self.__logger.info('Init watch_file_change')
+        self.__logger.info('Init CheckChanges')
         self.__logger.info('\tWorking dir: {}'.format(self.__watch_dirs))
 
     def can_update(self):

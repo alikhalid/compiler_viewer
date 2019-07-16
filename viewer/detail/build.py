@@ -17,7 +17,7 @@ def run_sp(cmd, wd=os.getcwd()):
     return (True, '') if not p.returncode else (False, str(e))
 
 
-class build:
+class Build:
     def __init__(self, args):
         self.__flags = ' '.join(args['build_flags'])
         self.__include_dir = ''
@@ -31,7 +31,7 @@ class build:
         self.__log_info()
 
     def __log_info(self):
-        self.__logger.info('Init build')
+        self.__logger.info('Init Build')
         self.__logger.info('\tgcc_cmd: {}'.format(self.__gcc_cmd))
 
     def __call__(self):

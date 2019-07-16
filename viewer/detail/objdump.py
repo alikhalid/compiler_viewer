@@ -28,9 +28,9 @@ def get_all_files(directory, name):
     return all_files
 
 
-class objdump:
+class Objdump:
     def __init__(self, args):
-        self.__flags = ' '.join(args['objdump_flags'])
+        self.__flags = ' '.join(args['Objdump_flags'])
         self.__init = False
         self.__args = args
         self.__logger = get_logger()
@@ -39,20 +39,20 @@ class objdump:
         self.__init = True
         build_dir = self.__args['build_dir']
         self.__obj_file = self.__find_file(build_dir, self.__args['asm'])
-        self.__cmd = 'objdump --insn-width=16 {0} -l -C -d -S -M intel {1}'.format(
+        self.__cmd = 'Objdump --insn-width=16 {0} -l -C -d -S -M intel {1}'.format(
             self.__flags, self.__obj_file)
 
         self.__log_info()
 
     def __log_info(self):
-        self.__logger.info('Init objdump')
-        self.__logger.info('\tobjdump cmd: {}'.format(self.__cmd))
+        self.__logger.info('Init Objdump')
+        self.__logger.info('\tObjdump cmd: {}'.format(self.__cmd))
 
     def __call__(self):
         if not self.__init:
             self.__delay_init()
 
-        self.__logger.info('Running objdump')
+        self.__logger.info('Running Objdump')
         return run_sp(self.__cmd)
 
     def __find_file(self, directory, fname):

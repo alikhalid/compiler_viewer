@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 from .logger import *
-from .parse_error import parse_error
-from .parse_asm import parse_asm
+from .parse_error import ParseError
+from .parse_asm import ParseAsm
 
 import os
 
@@ -20,18 +20,19 @@ def write_to_file(fname, out):
         f.write(out)
 
 
-class printer:
+class Printer:
     def __init__(self, args):
         self.__fname = os.path.join(
             os.getcwd(), 'viewer/__viewer_cache__/cmp_exp')
-        self.__parse_error = parse_error(args)
-        self.__parse_asm = parse_asm(args)
+        self.__parse_error = ParseError(args)
+        self.__parse_asm = ParseAsm(args)
 
         self.__logger = get_logger()
         self.__log_info()
 
     def __log_info(self):
-        self.__logger.info('Output file: {}'.format(self.__fname))
+        self.__logger.info("Init Printer")
+        self.__logger.info('\tOutput file: {}'.format(self.__fname))
 
     def print_msg(self, success, msg=""):
         if success:

@@ -7,21 +7,21 @@ import sys
 import traceback
 
 
-class i_runner:
+class IRunner:
     def __init__(self, args):
         self.__logger = get_logger()
         self.__log_info()
 
-        self.__printer = printer(args)
-        self.__cc = check_changes(args)
-        self.__build = build(args)
+        self.__printer = Printer(args)
+        self.__cc = CheckChanges(args)
+        self.__build = Build(args)
 
         self.__generate_asm = args['asm']
         if self.__generate_asm:
-            self.__objdump = objdump(args)
+            self.__objdump = Objdump(args)
 
     def __log_info(self):
-        self.__logger.info('Init i_runner')
+        self.__logger.info('Init IRunner')
 
     def run(self):
         while True:
@@ -39,21 +39,21 @@ class i_runner:
             time.sleep(1)
 
 
-class d_runner:
+class DRunner:
     def __init__(self, args):
         self.__logger = get_logger()
         self.__log_info()
 
-        self.__printer = printer(args)
-        self.__cc = check_changes(args)
-        self.__make = make(args)
+        self.__printer = Printer(args)
+        self.__cc = CheckChanges(args)
+        self.__make = Make(args)
 
         self.__generate_asm = args['asm']
         if self.__generate_asm:
-            self.__objdump = objdump(args)
+            self.__objdump = Objdump(args)
 
     def __log_info(self):
-        self.__logger.info('Init d_runner')
+        self.__logger.info('Init DRunner')
 
     def run(self):
         while True:
@@ -73,9 +73,9 @@ class d_runner:
 
 def get_runner(args):
     if args['mode'] == 'INTERACTIVE':
-        return i_runner(args)
+        return IRunner(args)
     elif args['mode'] == 'DEVELOPER':
-        return d_runner(args)
+        return DRunner(args)
 
 
 def main():
