@@ -30,7 +30,7 @@ def get_all_files(directory, name):
 
 class Objdump:
     def __init__(self, args):
-        self.__flags = ' '.join(args['Objdump_flags'])
+        self.__flags = ' '.join(args['objdump_flags'])
         self.__init = False
         self.__args = args
         self.__logger = get_logger()

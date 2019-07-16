@@ -77,15 +77,18 @@ def cmd_args():
 
     args = vars(parser.parse_args())
 
+    if not args['mode'] and args['mode'].lower() in ['i', 'interactive', 'd', 'developer']:
+        assert False, 'Mode must be defined and should be I or D'
+
     if args['config']:
         if os.path.isfile(args['config']):
             args = load_cfg(args['config'])
-        else:
+        elif args['mode'].lower() in ['i', 'interactive']:
+            print("Creating configs is not supported in interactive mode - ignoring -c option")
+        elif args['mode'].lower() in ['d', 'developer']:
             create_cfg(args)
 
-    if not args['mode']:
-        assert False, 'Mode must be defined'
-    elif args['mode'].lower() in ['i', 'interactive']:
+    if args['mode'].lower() in ['i', 'interactive']:
         args['mode'] = 'INTERACTIVE'
         if args['asm'] is not None:
             args['asm'] = 'a.out'
@@ -102,8 +105,6 @@ def cmd_args():
             else:
                 args['asm'] = None
         args['watch_dirs'] = [args['project_dir']]
-    else:
-        assert False, 'Unknown mode try either: I or D'
 
     if not os.path.isdir(args['build_dir']):
         args['build_dir'] = os.path.join(

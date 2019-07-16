@@ -24,7 +24,7 @@ class ParseError:
 
     def __call__(self, err_strs):
         if (self.__disable):
-            return asm_strs
+            return err_strs
 
         self.__logger.info('Running ParseError')
 
