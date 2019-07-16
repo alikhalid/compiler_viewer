@@ -22,46 +22,46 @@ def write_to_file(fname, out):
 
 class printer:
     def __init__(self, args):
-        self._fname = os.path.join(
+        self.__fname = os.path.join(
             os.getcwd(), 'viewer/__viewer_cache__/cmp_exp')
-        self._parse_error = parse_error(args)
-        self._parse_asm = parse_asm(args)
+        self.__parse_error = parse_error(args)
+        self.__parse_asm = parse_asm(args)
 
-        self._logger = get_logger()
-        self._log_info()
+        self.__logger = get_logger()
+        self.__log_info()
 
-    def _log_info(self):
-        self._logger.info('Output file: {}'.format(self._fname))
+    def __log_info(self):
+        self.__logger.info('Output file: {}'.format(self.__fname))
 
     def print_msg(self, success, msg=""):
         if success:
-            self._print_success(msg)
+            self.__print_success(msg)
         else:
-            self._print_failure(msg)
+            self.__print_failure(msg)
 
     def compiling(self):
-        write_to_file(self._fname, 'Compiling...')
+        write_to_file(self.__fname, 'Compiling...')
 
-    def _print_success(self, msg):
-        self._logger.info('Compilation successful')
+    def __print_success(self, msg):
+        self.__logger.info('Compilation successful')
         parsed_msg = msg
         if msg:
             try:
-                parsed_msg = self._parse_asm(msg)
+                parsed_msg = self.__parse_asm(msg)
             except BaseException:
-                self._logger.error('Unable to parse assemby!')
+                self.__logger.error('Unable to parse assemby!')
                 parsed_msg = msg
         write_to_file(
-            self._fname,
+            self.__fname,
             "Compilation successful!\n{0}".format(parsed_msg))
 
-    def _print_failure(self, msg):
-        self._logger.info('Compilation failed')
+    def __print_failure(self, msg):
+        self.__logger.info('Compilation failed')
         try:
-            parsed_msg = self._parse_error(msg)
+            parsed_msg = self.__parse_error(msg)
         except BaseException:
-            self._logger.error('Unable to parse compiler error!')
+            self.__logger.error('Unable to parse compiler error!')
             parsed_msg = msg
         write_to_file(
-            self._fname,
+            self.__fname,
             "Compilation failed!\n{0}".format(parsed_msg))

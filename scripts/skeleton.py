@@ -2,16 +2,16 @@
 
 import os
 
-class skeleton:
+class Skeleton:
     def __init__(self):
-        self._fname = 'viewer/__viewer_cache__/example.cpp'
+        self.__fname = 'viewer/__viewer_cache__/example.cpp'
 
     def __call__(self):
-        if not os.path.isfile(self._fname):
-            with open(self._fname, 'w') as f:
-                f.write(self._main_skeleton())
+        if not os.path.isfile(self.__fname):
+            with open(self.__fname, 'w') as f:
+                f.write(self.__main_skeleton())
 
-    def _main_skeleton(self):
+    def __main_skeleton(self):
         return """/*
 #include <iostream>
 #include <string>
@@ -24,5 +24,5 @@ int main(){
 }"""
 
 if __name__ == '__main__':
-    s = skeleton()
+    s = Skeleton()
     s()

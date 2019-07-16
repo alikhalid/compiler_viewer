@@ -30,32 +30,32 @@ def get_all_files(directory, name):
 
 class objdump:
     def __init__(self, args):
-        self._flags = ' '.join(args['objdump_flags'])
-        self._init = False
-        self._args = args
-        self._logger = get_logger()
+        self.__flags = ' '.join(args['objdump_flags'])
+        self.__init = False
+        self.__args = args
+        self.__logger = get_logger()
 
-    def _delay_init(self):
-        self._init = True
-        build_dir = self._args['build_dir']
-        self._obj_file = self._find_file(build_dir, self._args['asm'])
-        self._cmd = 'objdump --insn-width=16 {0} -l -C -d -S -M intel {1}'.format(
-            self._flags, self._obj_file)
+    def __delay_init(self):
+        self.__init = True
+        build_dir = self.__args['build_dir']
+        self.__obj_file = self.__find_file(build_dir, self.__args['asm'])
+        self.__cmd = 'objdump --insn-width=16 {0} -l -C -d -S -M intel {1}'.format(
+            self.__flags, self.__obj_file)
 
-        self._log_info()
+        self.__log_info()
 
-    def _log_info(self):
-        self._logger.info('Init objdump')
-        self._logger.info('\tobjdump cmd: {}'.format(self._cmd))
+    def __log_info(self):
+        self.__logger.info('Init objdump')
+        self.__logger.info('\tobjdump cmd: {}'.format(self.__cmd))
 
     def __call__(self):
-        if not self._init:
-            self._delay_init()
+        if not self.__init:
+            self.__delay_init()
 
-        self._logger.info('Running objdump')
-        return run_sp(self._cmd)
+        self.__logger.info('Running objdump')
+        return run_sp(self.__cmd)
 
-    def _find_file(self, directory, fname):
+    def __find_file(self, directory, fname):
         all_files = get_all_files(directory, fname)
         if len(all_files) == 1:
             return all_files[0]

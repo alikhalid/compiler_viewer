@@ -9,64 +9,64 @@ import traceback
 
 class i_runner:
     def __init__(self, args):
-        self._logger = get_logger()
-        self._log_info()
+        self.__logger = get_logger()
+        self.__log_info()
 
-        self._printer = printer(args)
-        self._cc = check_changes(args)
-        self._build = build(args)
+        self.__printer = printer(args)
+        self.__cc = check_changes(args)
+        self.__build = build(args)
 
-        self._generate_asm = args['asm']
-        if self._generate_asm:
-            self._objdump = objdump(args)
+        self.__generate_asm = args['asm']
+        if self.__generate_asm:
+            self.__objdump = objdump(args)
 
-    def _log_info(self):
-        self._logger.info('Init i_runner')
+    def __log_info(self):
+        self.__logger.info('Init i_runner')
 
     def run(self):
         while True:
-            if self._cc.can_update():
-                self._printer.compiling()
-                make_st, curr_out = self._build()
+            if self.__cc.can_update():
+                self.__printer.compiling()
+                make_st, curr_out = self.__build()
 
-                if make_st and self._generate_asm:
-                    objdump_st, out = self._objdump()
+                if make_st and self.__generate_asm:
+                    objdump_st, out = self.__objdump()
                     if objdump_st:
                         curr_out = out
 
-                self._printer.print_msg(make_st, curr_out)
+                self.__printer.print_msg(make_st, curr_out)
 
             time.sleep(1)
 
 
 class d_runner:
     def __init__(self, args):
-        self._logger = get_logger()
-        self._log_info()
+        self.__logger = get_logger()
+        self.__log_info()
 
-        self._printer = printer(args)
-        self._cc = check_changes(args)
-        self._make = make(args)
+        self.__printer = printer(args)
+        self.__cc = check_changes(args)
+        self.__make = make(args)
 
-        self._generate_asm = args['asm']
-        if self._generate_asm:
-            self._objdump = objdump(args)
+        self.__generate_asm = args['asm']
+        if self.__generate_asm:
+            self.__objdump = objdump(args)
 
-    def _log_info(self):
-        self._logger.info('Init d_runner')
+    def __log_info(self):
+        self.__logger.info('Init d_runner')
 
     def run(self):
         while True:
-            if self._cc.can_update():
-                self._printer.compiling()
-                make_st, curr_out = self._make()
+            if self.__cc.can_update():
+                self.__printer.compiling()
+                make_st, curr_out = self.__make()
 
-                if make_st and self._generate_asm:
-                    objdump_st, out = self._objdump()
+                if make_st and self.__generate_asm:
+                    objdump_st, out = self.__objdump()
                     if objdump_st:
                         curr_out = out
 
-                self._printer.print_msg(make_st, curr_out)
+                self.__printer.print_msg(make_st, curr_out)
 
             time.sleep(1)
 

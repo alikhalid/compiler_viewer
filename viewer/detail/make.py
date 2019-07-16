@@ -20,18 +20,18 @@ def run_sp(cmd, wd=os.getcwd()):
 
 class make:
     def __init__(self, args):
-        self._flags = ' '.join(args['build_flags'])
-        self._build_dir = args['build_dir']
-        self._cmd = 'make {}'.format(self._flags)
+        self.__flags = ' '.join(args['build_flags'])
+        self.__build_dir = args['build_dir']
+        self.__cmd = 'make {}'.format(self.__flags)
 
-        self._logger = get_logger()
-        self._log_info()
+        self.__logger = get_logger()
+        self.__log_info()
 
-    def _log_info(self):
-        self._logger.info('Init make')
-        self._logger.info('\tbuild dir for make: {}'.format(self._build_dir))
-        self._logger.info('\tmake cmd: {}'.format(self._cmd))
+    def __log_info(self):
+        self.__logger.info('Init make')
+        self.__logger.info('\tbuild dir for make: {}'.format(self.__build_dir))
+        self.__logger.info('\tmake cmd: {}'.format(self.__cmd))
 
     def __call__(self):
-        self._logger.info('Running make')
-        return run_sp(self._cmd, self._build_dir)
+        self.__logger.info('Running make')
+        return run_sp(self.__cmd, self.__build_dir)

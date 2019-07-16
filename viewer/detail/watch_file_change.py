@@ -31,101 +31,101 @@ def diff_dicts(a, b):
 
 class check_changes:
     def __init__(self, args):
-        self._args = args
-        self._watch_dirs = args['watch_dirs']
-        self._all_files = get_all_files(self._watch_dirs)
-        self._num_files = len(self._all_files)
-        self._modified_files = self._all_files
-        self._files_mtime = {k: 0 for k in self._all_files}
-        self._files_md5 = {k: 0 for k in self._all_files}
+        self.__args = args
+        self.__watch_dirs = args['watch_dirs']
+        self.__all_files = get_all_files(self.__watch_dirs)
+        self.__num_files = len(self.__all_files)
+        self.__modified_files = self.__all_files
+        self.__files_mtime = {k: 0 for k in self.__all_files}
+        self.__files_md5 = {k: 0 for k in self.__all_files}
 
-        self._logger = get_logger()
-        self._log_info()
+        self.__logger = get_logger()
+        self.__log_info()
 
-    def _log_info(self):
-        self._logger.info('Init watch_file_change')
-        self._logger.info('\tWorking dir: {}'.format(self._watch_dirs))
+    def __log_info(self):
+        self.__logger.info('Init watch_file_change')
+        self.__logger.info('\tWorking dir: {}'.format(self.__watch_dirs))
 
     def can_update(self):
-        if self._mtime_check() and self._md5_check():
-            if self._can_reset:
-                self._reset
+        if self.__mtime_check() and self.__md5_check():
+            if self.__can_reset:
+                self.__reset
             return True
 
         return False
 
-    def _reset(self):
-        self._logger.info("Number of files changed resetting state")
-        self.__init__(self._args)
+    def __reset(self):
+        self.__logger.info("Number of files changed resetting state")
+        self.___init__(self.__args)
 
-    def _can_reset(self):
-        num_files = len(get_all_files(self._watch_dirs))
-        return num_files != self._num_files
+    def __can_reset(self):
+        num_files = len(get_all_files(self.__watch_dirs))
+        return num_files != self.__num_files
 
-    def _mtime_check(self):
-        files_mtime = self._get_mtime()
-        self._logger.debug(
+    def __mtime_check(self):
+        files_mtime = self.__get_mtime()
+        self.__logger.debug(
             '_mtime_check:::files_mtime: {}'.format(files_mtime))
         changed = False
-        if files_mtime != self._files_mtime:
-            self._logger.info('mtime changed')
+        if files_mtime != self.__files_mtime:
+            self.__logger.info('mtime changed')
             changed = True
-            self._modified_files = diff_dicts(files_mtime, self._files_mtime)
-            self._logger.debug(
-                '_mtime_check::self._modified_files: {}'.format(
-                    self._modified_files))
-            self._update_files_mtime(files_mtime)
+            self.__modified_files = diff_dicts(files_mtime, self.__files_mtime)
+            self.__logger.debug(
+                '_mtime_check::self.__modified_files: {}'.format(
+                    self.__modified_files))
+            self.__update_files_mtime(files_mtime)
 
         return changed
 
-    def _get_mtime(self):
+    def __get_mtime(self):
         data = {}
-        for f in self._all_files:
+        for f in self.__all_files:
             data[f] = os.path.getmtime(f)
 
         return data
 
-    def _update_files_mtime(self, update_from):
-        for f in self._modified_files:
-            self._files_mtime[f] = update_from[f]
+    def __update_files_mtime(self, update_from):
+        for f in self.__modified_files:
+            self.__files_mtime[f] = update_from[f]
 
-        self._logger.debug(
-            '_update_files_mtime::self._files_mtime: {}'.format(
-                self._files_mtime))
+        self.__logger.debug(
+            '_update_files_mtime::self.__files_mtime: {}'.format(
+                self.__files_mtime))
 
-    def _md5_check(self):
-        files_md5 = self._get_md5()
-        self._logger.debug('_md5_check::files_md5: {}'.format(files_md5))
+    def __md5_check(self):
+        files_md5 = self.__get_md5()
+        self.__logger.debug('_md5_check::files_md5: {}'.format(files_md5))
         changed = False
-        if self._can_update_md5(files_md5):
-            self._logger.info('md5 changed')
+        if self.__can_update_md5(files_md5):
+            self.__logger.info('md5 changed')
             changed = True
-            self._update_files_md5(files_md5)
-            self._reset_modified_files()
+            self.__update_files_md5(files_md5)
+            self.__reset_modified_files()
 
         return changed
 
-    def _get_md5(self):
+    def __get_md5(self):
         data = {}
-        for f in self._all_files:
+        for f in self.__all_files:
             data[f] = hashlib.md5(open(f, 'rb').read()).hexdigest()
 
         return data
 
-    def _update_files_md5(self, update_from):
-        for f in self._modified_files:
-            self._files_md5[f] = update_from[f]
+    def __update_files_md5(self, update_from):
+        for f in self.__modified_files:
+            self.__files_md5[f] = update_from[f]
 
-        self._logger.debug(
-            '_update_files_mdf::self._files_md5: {}'.format(
-                self._files_md5))
+        self.__logger.debug(
+            '_update_files_mdf::self.__files_md5: {}'.format(
+                self.__files_md5))
 
-    def _can_update_md5(self, files_md5):
+    def __can_update_md5(self, files_md5):
         for k, v in list(files_md5.items()):
-            if self._files_md5[k] != v:
+            if self.__files_md5[k] != v:
                 return True
 
         return False
 
-    def _reset_modified_files(self):
-        self._modified_files = []
+    def __reset_modified_files(self):
+        self.__modified_files = []
