@@ -39,7 +39,7 @@ class Objdump:
         self.__init = True
         build_dir = self.__args['build_dir']
         self.__obj_file = self.__find_file(build_dir, self.__args['asm'])
-        self.__cmd = 'Objdump --insn-width=16 {0} -l -C -d -S -M intel {1}'.format(
+        self.__cmd = 'objdump --insn-width=16 {0} -l -C -d -S -M intel {1}'.format(
             self.__flags, self.__obj_file)
 
         self.__log_info()

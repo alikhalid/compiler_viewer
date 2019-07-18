@@ -11,6 +11,7 @@ def get_mock_args_passing():
     args['include_dir'] = None
     args['objdump_flags'] = []
     args['build_flags'] = ["-std=c++17", "-O3"]
+    args['disable_parsing'] = False
 
     return args
 
