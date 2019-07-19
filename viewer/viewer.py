@@ -15,6 +15,7 @@ class IRunner:
         self.__printer = Printer(args)
         self.__cc = CheckChanges(args)
         self.__build = Build(args)
+        self.__a_out = Aout(args)
 
         self.__generate_asm = args['asm']
         if self.__generate_asm:
@@ -29,10 +30,13 @@ class IRunner:
                 self.__printer.compiling()
                 make_st, curr_out = self.__build()
 
-                if make_st and self.__generate_asm:
-                    objdump_st, out = self.__objdump()
-                    if objdump_st:
-                        curr_out = out
+                if make_st:
+                    if self.__generate_asm:
+                        objdump_st, out = self.__objdump()
+                        if objdump_st:
+                            curr_out = out
+
+                    self.__a_out()
 
                 self.__printer.print_msg(make_st, curr_out)
 
