@@ -14,8 +14,8 @@ def run_sp(cmd, wd=os.getcwd()):
         stderr=sp.PIPE,
         universal_newlines=True,
         cwd=wd)
-    o, e = p.communicate()
-    return (True, str(o)) if not p.returncode else (False, str(e))
+
+    return (True, str(p.stdout)) if not p.returncode else (False, str(p.stderr))
 
 
 def get_all_files(directory, name):

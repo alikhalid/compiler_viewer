@@ -11,3 +11,7 @@ def init_mock_logger():
         filename='viewer/tests/test_data/event.log',
         filemode='w',
         format='%(asctime)s %(message)s')
+
+def close_mock_logger():
+    l = logging.get_logger()
+    l.close()

@@ -4,10 +4,9 @@ from logger import *
 import subprocess as sp
 import os, sys
 
-def run_sp(cmd, wd=os.getcwd()):
-    p = sp.Popen(cmd.split(), stdout=sp.PIPE, stderr=sp.PIPE, universal_newlines=True, cwd=wd)
-    o, e = p.communicate()
-    return (True, '') if not p.returncode else (False, str(e))
+def run_sp(cmd, wd, to=3):
+    p = sp.run(cmd.split(), stderr=sp.PIPE, universal_newlines=True, cwd=wd, timeout=to)
+    return (True, '') if not p.returncode else (False, str(p.stderr))
 
 class AOut:
     def __init__(self, args):

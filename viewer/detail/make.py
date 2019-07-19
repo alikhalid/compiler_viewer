@@ -6,16 +6,14 @@ import os
 import sys
 
 
-def run_sp(cmd, wd=os.getcwd()):
-    p = sp.Popen(
+def run_sp(cmd, wd):
+    p = sp.run(
         cmd.split(),
-        stdout=sp.PIPE,
         stderr=sp.PIPE,
         universal_newlines=True,
         cwd=wd)
-    o, e = p.communicate()
-    return (True, '') if not p.returncode else (False, str(e))
-    # return (True, str(o)) if not p.returncode else (False, str(e))
+
+    return (True, '') if not p.returncode else (False, str(p.stderr))
 
 
 class Make:

@@ -95,6 +95,7 @@ def main():
         except KeyboardInterrupt:
             logger.info("Exiting now")
             sys.exit(0)
+            close_logger()
         except Exception as e:
             logger.info('Caught exception: {0}'.format(str(e.message)))
             logger.error(traceback.format_exc())
@@ -102,6 +103,7 @@ def main():
             if trys == 0:
                 logger.error(traceback.format_exc())
                 sys.exit(1)
+                close_logger()
 
 
 if __name__ == '__main__':
