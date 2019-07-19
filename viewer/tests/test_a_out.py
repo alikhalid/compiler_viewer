@@ -14,11 +14,11 @@ class TestAout(unittest.TestCase):
         self.assertTrue(status)
 
     def test_failing_a_out(self):
-        args = get_mock_a_out_args_failing_a_out()
+        args = get_mock_args_failing_a_out()
         a_out = Aout(args)
         status = a_out()
 
-        self.assertFaile(status)
+        self.assertFalse(status)
 
 
 if __name__ == '__main__':

@@ -38,7 +38,7 @@ def get_mock_args_passing_a_out():
     args['asm'] = 'a.out'
     args['project_dir'] = 'viewer/tests/test_data/psssing_a_out'
     args['watch_dirs'] = [args['project_dir']]
-    args['build_dir'] = 'viewer/tests/test_data/passing'
+    args['build_dir'] = 'viewer/tests/test_data/psssing_a_out'
     args['include_dir'] = None
     args['objdump_flags'] = []
     args['build_flags'] = ["-std=c++17", "-O3"]
@@ -54,7 +54,7 @@ def get_mock_args_failing_a_out():
     args['asm'] = 'a.out'
     args['project_dir'] = 'viewer/tests/test_data/failing_a_out'
     args['watch_dirs'] = [args['project_dir']]
-    args['build_dir'] = 'viewer/tests/test_data/failing'
+    args['build_dir'] = 'viewer/tests/test_data/failing_a_out'
     args['include_dir'] = None
     args['objdump_flags'] = []
     args['build_flags'] = ["-std=c++17", "-O3"]
