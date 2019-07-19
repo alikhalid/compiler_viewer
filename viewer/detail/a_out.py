@@ -1,24 +1,26 @@
 #!/usr/bin/python
 
-from logger import *
+from .logger import *
 import subprocess as sp
 import os, sys
 
-def run_sp(cmd, wd, to=3):
-    p = sp.run(cmd.split(), stderr=sp.PIPE, universal_newlines=True, cwd=wd, timeout=to)
-    return (True, '') if not p.returncode else (False, str(p.stderr))
+def run_sp(cmd, out_file, wd, to=3):
+    with open(out_file, 'w') as f:
+        p = sp.run(cmd.split(), stdout=f, stderr=f, universal_newlines=True, cwd=wd, timeout=to)
+        return True if not p.returncode else False
 
-class AOut:
+class Aout:
     def __init__(self, args):
         self.__build_dir = args['build_dir']
-        self.__cmd = './a.out > out'
+        self.__cmd = './a.out'
+        self.__out_file = os.path.join(self.__build_dir, 'out.txt')
 
         self.__logger = get_logger()
         self.__log_info()
 
     def __log_info(self):
-        self.__logger.info('Init AOut')
+        self.__logger.info('Init Aout')
 
     def __call__(self):
-        self.__logger.info('Running AOut')
-        return run_sp(self.__cmd, 'viewer/__viewer_cache__')
+        self.__logger.info('Running Aout')
+        return run_sp(self.__cmd, self.__out_file, self.__build_dir)

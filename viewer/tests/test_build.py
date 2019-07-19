@@ -12,7 +12,7 @@ class TestBuild(unittest.TestCase):
         status, _ = b()
         self.assertTrue(status)
 
-    def test_passing_build(self):
+    def test_failing_build(self):
         args = get_mock_args_failing()
         b = Build(args)
         status, msg = b()

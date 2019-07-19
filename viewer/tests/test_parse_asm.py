@@ -6,9 +6,9 @@ from viewer.detail.objdump import *
 from viewer.detail.parse_asm import *
 
 
-class TestObjdump(unittest.TestCase):
+class TestParseAsm(unittest.TestCase):
 
-    def test_objdump(self):
+    def test_parse_asm(self):
         args = get_mock_args_passing()
         b = Build(args)
         build_status, _ = b()

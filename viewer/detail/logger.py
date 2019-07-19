@@ -15,6 +15,7 @@ def get_logger():
     logger.setLevel(logging.INFO)
     return logger
 
+
 def close_logger():
     l = get_logger()
     l.close()
