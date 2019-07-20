@@ -22,8 +22,7 @@ def write_to_file(fname, out):
 
 class Printer:
     def __init__(self, args):
-        self.__fname = os.path.join(
-            os.getcwd(), 'viewer/__viewer_cache__/cmp_exp')
+        self.__fname = args['cmp_exp']
         self.__parse_error = ParseError(args)
         self.__parse_asm = ParseAsm(args)
 

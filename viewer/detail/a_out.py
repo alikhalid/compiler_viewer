@@ -12,8 +12,8 @@ def run_sp(cmd, out_file, wd, to=3):
 class Aout:
     def __init__(self, args):
         self.__build_dir = args['build_dir']
-        self.__cmd = './a.out'
-        self.__out_file = os.path.join(self.__build_dir, 'out.txt')
+        self.__cmd = './{}'.format(args['executable'])
+        self.__out_file = args['out_txt']
 
         self.__logger = get_logger()
         self.__log_info()

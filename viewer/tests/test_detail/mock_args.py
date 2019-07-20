@@ -3,8 +3,9 @@
 def get_mock_args_passing():
     args = {}
 
-    args['mode'] = 'INTERACTIVE'
-    args['asm'] = 'a.out'
+    args['asm'] = True
+    args['executable'] = 'a.out'
+    args['example_cpp'] = 'example.cpp'
     args['project_dir'] = 'viewer/tests/test_data/psssing'
     args['watch_dirs'] = [args['project_dir']]
     args['build_dir'] = 'viewer/tests/test_data/passing'
@@ -19,8 +20,9 @@ def get_mock_args_passing():
 def get_mock_args_failing():
     args = {}
 
-    args['mode'] = 'INTERACTIVE'
-    args['asm'] = 'a.out'
+    args['asm'] = True
+    args['executable'] = 'a.out'
+    args['example_cpp'] = 'example.cpp'
     args['project_dir'] = 'viewer/tests/test_data/failing'
     args['watch_dirs'] = [args['project_dir']]
     args['build_dir'] = 'viewer/tests/test_data/failing'
@@ -34,8 +36,11 @@ def get_mock_args_failing():
 def get_mock_args_passing_a_out():
     args = {}
 
-    args['asm'] = 'a.out'
+    args['asm'] = True
+    args['executable'] = 'a.out'
+    args['example_cpp'] = 'example.cpp'
     args['build_dir'] = 'viewer/tests/test_data/passing_a_out'
+    args['out_txt'] = 'viewer/tests/test_data/passing_a_out/out.txt'
 
     return args
 
@@ -43,7 +48,10 @@ def get_mock_args_passing_a_out():
 def get_mock_args_failing_a_out():
     args = {}
 
-    args['asm'] = 'a.out'
+    args['asm'] = True
+    args['executable'] = 'a.out'
+    args['example_cpp'] = 'example.cpp'
     args['build_dir'] = 'viewer/tests/test_data/failing_a_out'
+    args['out_txt'] = 'viewer/tests/test_data/failing_a_out/out.txt'
 
     return args

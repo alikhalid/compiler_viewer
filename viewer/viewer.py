@@ -11,13 +11,12 @@ class IRunner:
     def __init__(self, args):
         self.__logger = get_logger()
         self.__log_info()
-
         self.__printer = Printer(args)
         self.__cc = CheckChanges(args)
         self.__build = Build(args)
         self.__a_out = Aout(args)
-
         self.__generate_asm = args['asm']
+
         if self.__generate_asm:
             self.__objdump = Objdump(args)
 
@@ -35,11 +34,9 @@ class IRunner:
                         objdump_st, out = self.__objdump()
                         if objdump_st:
                             curr_out = out
-
                     self.__a_out()
 
                 self.__printer.print_msg(make_st, curr_out)
-
             time.sleep(1)
 
 
@@ -47,12 +44,12 @@ class DRunner:
     def __init__(self, args):
         self.__logger = get_logger()
         self.__log_info()
-
         self.__printer = Printer(args)
         self.__cc = CheckChanges(args)
         self.__make = Make(args)
-
+        self.__a_out = Aout(args)
         self.__generate_asm = args['asm']
+
         if self.__generate_asm:
             self.__objdump = Objdump(args)
 
@@ -65,13 +62,14 @@ class DRunner:
                 self.__printer.compiling()
                 make_st, curr_out = self.__make()
 
-                if make_st and self.__generate_asm:
-                    objdump_st, out = self.__objdump()
-                    if objdump_st:
-                        curr_out = out
+                if make_st:
+                    if self.__generate_asm:
+                        objdump_st, out = self.__objdump()
+                        if objdump_st:
+                            curr_out = out
+                        self.__a_out()
 
                 self.__printer.print_msg(make_st, curr_out)
-
             time.sleep(1)
 
 
@@ -80,6 +78,8 @@ def get_runner(args):
         return IRunner(args)
     elif args['mode'] == 'DEVELOPER':
         return DRunner(args)
+    else:
+        assert False, 'Bad mode given to get runner'
 
 
 def main():

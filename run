@@ -32,7 +32,7 @@ function run(){
            echo Running in interactive mode
            init_viewer &&
            init_example &&
-           ./viewer/viewer.py "${arr[@]}" &
+           python viewer/viewer.py "${arr[@]}" &
            tmux split-window -h "vim viewer/__viewer_cache__/example.cpp"
            vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp viewer/__viewer_cache__/out.txt &&
            ./scripts/clean.sh
@@ -41,8 +41,8 @@ function run(){
        then
            echo Running in developer mode
            init_viewer &&
-           ./viewer/viewer.py "${arr[@]}" &
-           vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp &&
+           python viewer/viewer.py "${arr[@]}" &
+           vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp viewer/__viewer_cache__/out.txt &&
            ./scripts/clean.sh
            exit
        fi

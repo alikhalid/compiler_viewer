@@ -9,6 +9,7 @@ import sys
 def run_sp(cmd, wd):
     p = sp.run(
         cmd.split(),
+        stdout=sp.PIPE,
         stderr=sp.PIPE,
         universal_newlines=True,
         cwd=wd)
@@ -20,7 +21,7 @@ class Make:
     def __init__(self, args):
         self.__flags = ' '.join(args['build_flags'])
         self.__build_dir = args['build_dir']
-        self.__cmd = 'Make {}'.format(self.__flags)
+        self.__cmd = 'make {}'.format(self.__flags)
 
         self.__logger = get_logger()
         self.__log_info()

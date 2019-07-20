@@ -8,7 +8,7 @@ import glob
 
 
 def run_sp(cmd, wd=os.getcwd()):
-    p = sp.Popen(
+    p = sp.run(
         cmd.split(),
         stdout=sp.PIPE,
         stderr=sp.PIPE,
@@ -32,15 +32,15 @@ class Objdump:
     def __init__(self, args):
         self.__flags = ' '.join(args['objdump_flags'])
         self.__init = False
-        self.__args = args
+        self.__asm = args['executable']
+        self.__build_dir = args['build_dir']
         self.__logger = get_logger()
 
     def __delay_init(self):
         self.__init = True
-        build_dir = self.__args['build_dir']
-        self.__obj_file = self.__find_file(build_dir, self.__args['asm'])
+        obj_file = self.__find_file(self.__build_dir, self.__asm)
         self.__cmd = 'objdump --insn-width=16 {0} -l -C -d -S -M intel {1}'.format(
-            self.__flags, self.__obj_file)
+            self.__flags, obj_file)
 
         self.__log_info()
 
