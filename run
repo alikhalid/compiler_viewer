@@ -30,20 +30,23 @@ val_in_arr(){
 run(){
     val_in_arr 'i' 'interactive'; interactive=$?
     val_in_arr 'd' 'developer'; developer=$?
+
     if [ $interactive -eq 0 ] ; then
         echo Running in interactive mode
         init_viewer &&
             init_example &&
             python3 viewer/viewer.py "${arr[@]}" &
+        PID=$!
         tmux split-window -h "vim viewer/__viewer_cache__/example.cpp"
         vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp viewer/__viewer_cache__/out.txt &&
-            ./scripts/clean.sh
+            ./scripts/clean.sh $PID
     elif [ $developer -eq 0 ]; then
         echo Running in developer mode
         init_viewer &&
             python3 viewer/viewer.py "${arr[@]}" &
+        PID=$!
         vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp viewer/__viewer_cache__/out.txt &&
-            ./scripts/clean.sh
+            ./scripts/clean.sh $PID
     else
         echo Unknown mode passing raw args to viewer.py
         python3 viewer/viewer.py "${arr[@]}"

@@ -30,4 +30,3 @@ if __name__ == '__main__':
     init_mock_logger()
     unittest.main()
     close_mock_logger()
-

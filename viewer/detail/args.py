@@ -5,6 +5,7 @@ import argparse as ap
 import os
 import json
 
+
 class Mode(Enum):
     DEVELOPER = "developer"
     INTERACTIVE = "interactive"
@@ -19,8 +20,8 @@ class Mode(Enum):
             assert False, 'Bad enum label'
 
 
-DEVELOPER=Mode.DEVELOPER
-INTERACTIVE=Mode.INTERACTIVE
+DEVELOPER = Mode.DEVELOPER
+INTERACTIVE = Mode.INTERACTIVE
 
 
 def create_cfg(args):
@@ -54,7 +55,6 @@ def process_developer(args_in):
     if not os.path.isdir(args['build_dir']):
         args['build_dir'] = os.path.join(
             args['project_dir'], args['build_dir'])
-
 
     if args['config']:
         if os.path.isfile(args['config']):
@@ -92,7 +92,8 @@ def process_interactive(args_in):
 
 def cmd_args():
     parser = ap.ArgumentParser('Compiler viewer')
-    subparser = parser.add_subparsers(title='Modes', help='Mode to run in', dest='MODE')
+    subparser = parser.add_subparsers(
+        title='Modes', help='Mode to run in', dest='MODE')
     subparser.required = True
     parser.add_argument(
         '-a',
@@ -122,7 +123,8 @@ def cmd_args():
         default=[],
         help='flags for build without "-"')
 
-    parser_interactive = subparser.add_parser('interactive', aliases=['i'], help='Interactive mode')
+    parser_interactive = subparser.add_parser(
+        'interactive', aliases=['i'], help='Interactive mode')
     parser_interactive.add_argument(
         '-i',
         '--include-dir',
@@ -132,7 +134,8 @@ def cmd_args():
         default=[],
         help='Include dir for interactive mode')
 
-    parser_developer = subparser.add_parser('developer', aliases=['d'], help='Developer mode')
+    parser_developer = subparser.add_parser(
+        'developer', aliases=['d'], help='Developer mode')
     parser_developer.add_argument(
         '-c',
         '--config',

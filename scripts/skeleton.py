@@ -2,6 +2,7 @@
 
 import os
 
+
 class Skeleton:
     def __init__(self):
         self.__fname = 'viewer/__viewer_cache__/example.cpp'
@@ -22,6 +23,7 @@ int main(){
     /* your_code_here */
     return 0;
 }"""
+
 
 if __name__ == '__main__':
     s = Skeleton()

@@ -2,12 +2,21 @@
 
 from .logger import *
 import subprocess as sp
-import os, sys
+import os
+import sys
+
 
 def run_sp(cmd, out_file, wd, to=3):
     with open(out_file, 'w') as f:
-        p = sp.run(cmd.split(), stdout=f, stderr=f, universal_newlines=True, cwd=wd, timeout=to)
+        p = sp.run(
+            cmd.split(),
+            stdout=f,
+            stderr=f,
+            universal_newlines=True,
+            cwd=wd,
+            timeout=to)
         return True if not p.returncode else False
+
 
 class Aout:
     def __init__(self, args):

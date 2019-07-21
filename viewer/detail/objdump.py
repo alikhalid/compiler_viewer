@@ -21,7 +21,11 @@ def run_sp(cmd, wd=os.getcwd()):
         universal_newlines=True,
         cwd=wd)
 
-    return (True, str(p.stdout)) if not p.returncode else (False, str(p.stderr))
+    return (
+        True, str(
+            p.stdout)) if not p.returncode else (
+        False, str(
+            p.stderr))
 
 
 def get_all_files(directory, name):
@@ -45,7 +49,8 @@ class Objdump:
     def __delay_init(self):
         self.__init = True
         obj_file = self.__find_file(self.__build_dir, self.__asm)
-        platform_specific_flags = '--insn-width=16 -M intel' if Platform(sys.platform) == Platform.LINUX else '-x86-asm-syntax=intel -no-leading-addr -no-leading-headers -no-show-raw-insn'
+        platform_specific_flags = '--insn-width=16 -M intel' if Platform(
+            sys.platform) == Platform.LINUX else '-x86-asm-syntax=intel -no-leading-addr -no-leading-headers -no-show-raw-insn'
         self.__cmd = 'objdump {0} -l -C -d -S {1} {2}'.format(
             platform_specific_flags, self.__flags, obj_file)
 

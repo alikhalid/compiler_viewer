@@ -19,7 +19,8 @@ def run_sp(cmd, wd=os.getcwd()):
 class Build:
     def __init__(self, args):
         self.__flags = ' '.join(args['build_flags'])
-        self.__include_dir = '-I {}'.format(' '.join(args['include_dir'])) if args['include_dir'] else ''
+        self.__include_dir = '-I {}'.format(
+            ' '.join(args['include_dir'])) if args['include_dir'] else ''
         self.__fname = args['example_cpp']
         self.__gcc_cmd = 'g++-9 {0} {1} {2} -o a.out'.format(
             self.__flags, self.__include_dir, self.__fname)

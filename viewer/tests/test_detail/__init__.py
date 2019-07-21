@@ -12,6 +12,7 @@ def init_mock_logger():
         filemode='w',
         format='%(asctime)s %(message)s')
 
+
 def close_mock_logger():
     l = logging.get_logger()
     l.close()
