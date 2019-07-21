@@ -13,15 +13,11 @@ class Mode(Enum):
     @staticmethod
     def from_str(label):
         if label.lower() in ['i', 'interactive']:
-            return INTERACTIVE
+            return Mode.INTERACTIVE
         elif label.lower() in ['d', 'developer']:
-            return DEVELOPER
+            return Mode.DEVELOPER
         else:
             assert False, 'Bad enum label'
-
-
-DEVELOPER = Mode.DEVELOPER
-INTERACTIVE = Mode.INTERACTIVE
 
 
 def create_cfg(args):
@@ -44,7 +40,7 @@ def assert_dir(path):
 def process_developer(args_in):
     args = vars(args_in)
 
-    args['mode'] = 'DEVELOPER'
+    args['MODE'] = 'DEVELOPER'
     args['watch_dirs'] = [args['project_dir']]
     args['cache_directory'] = 'viewer/__viewer_cache__'
     args['out_txt'] = 'viewer/__viewer_cache__/out.txt'
@@ -71,7 +67,7 @@ def process_developer(args_in):
 def process_interactive(args_in):
     args = vars(args_in)
 
-    args['mode'] = 'INTERACTIVE'
+    args['MODE'] = 'INTERACTIVE'
     args['executable'] = 'a.out'
     args['example_cpp'] = 'example.cpp'
     args['cache_directory'] = 'viewer/__viewer_cache__'
@@ -165,9 +161,9 @@ def cmd_args():
         help='Dir with makefiles')
 
     args = parser.parse_args()
-    if Mode.from_str(args.MODE) == DEVELOPER:
+    if Mode.from_str(args.MODE) == Mode.DEVELOPER:
         return process_developer(args)
-    elif Mode.from_str(args.MODE) == INTERACTIVE:
+    elif Mode.from_str(args.MODE) == Mode.INTERACTIVE:
         return process_interactive(args)
     else:
         assert False, 'Bad input'

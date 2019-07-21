@@ -74,9 +74,9 @@ class DRunner:
 
 
 def get_runner(args):
-    if args['mode'] == 'INTERACTIVE':
+    if args['MODE'] == 'INTERACTIVE':
         return IRunner(args)
-    elif args['mode'] == 'DEVELOPER':
+    elif args['MODE'] == 'DEVELOPER':
         return DRunner(args)
     else:
         assert False, 'Bad mode given to get runner'
