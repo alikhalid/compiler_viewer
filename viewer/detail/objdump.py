@@ -1,10 +1,16 @@
 #!/usr/bin/python
 
 from .logger import *
+from enum import Enum
 import subprocess as sp
 import os
 import sys
 import glob
+
+
+class Platform(Enum):
+    MAC = 'darwin'
+    LINUX = 'linux'
 
 
 def run_sp(cmd, wd=os.getcwd()):
@@ -39,8 +45,9 @@ class Objdump:
     def __delay_init(self):
         self.__init = True
         obj_file = self.__find_file(self.__build_dir, self.__asm)
-        self.__cmd = 'objdump --insn-width=16 {0} -l -C -d -S -M intel {1}'.format(
-            self.__flags, obj_file)
+        platform_specific_flags = '--insn-width=16 -M intel' if Platform(sys.platform) == Platform.LINUX else '-x86-asm-syntax=intel -no-leading-addr -no-leading-headers -no-show-raw-insn'
+        self.__cmd = 'objdump {0} -l -C -d -S {1} {2}'.format(
+            platform_specific_flags, self.__flags, obj_file)
 
         self.__log_info()
 

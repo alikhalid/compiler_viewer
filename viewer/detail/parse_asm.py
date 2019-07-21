@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 from .logger import *
-
 import re
 
 
