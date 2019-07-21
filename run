@@ -2,54 +2,52 @@
 
 arr=("$@")
 
-function call_help(){
-    ./viewer/viewer.py -h
-}
-
-function init_viewer(){
+init_viewer(){
     echo Init viewer
     mkdir -p viewer/__viewer_cache__
     touch viewer/__viewer_cache__/cmp_exp
     touch viewer/__viewer_cache__/out.txt
 }
 
-function init_example(){
+init_example(){
     echo Init example
     ./scripts/skeleton.py
 }
 
-function run(){
-    shopt -s nocasematch
-    for i in "${arr[@]}"
-    do
-       PARM=`echo $i | awk -F= '{print $1}'`
-       if [[ $PARM == '-h' ]]
-       then
-          call_help
-          exit
-       elif [[ $PARM == 'i' ]] || [[ $PARM == 'interactive' ]]
-       then
-           echo Running in interactive mode
-           init_viewer &&
-           init_example &&
-           python3 viewer/viewer.py "${arr[@]}" &
-           tmux split-window -h "vim viewer/__viewer_cache__/example.cpp"
-           vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp viewer/__viewer_cache__/out.txt &&
-           ./scripts/clean.sh
-           exit
-       elif [[ $PARM == 'd' ]] || [[ $PARM == 'developer' ]] ||  [[ $PARM == '-c' ]] || [[ $PARM == '--config' ]]
-       then
-           echo Running in developer mode
-           init_viewer &&
-           python3 viewer/viewer.py "${arr[@]}" &
-           vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp viewer/__viewer_cache__/out.txt &&
-           ./scripts/clean.sh
-           exit
-       fi
+val_in_arr(){
+    values=("$@")
+    for parm in "${arr[@]}"; do
+        for value in "${values[@]}"; do
+            if [[ $parm == $value ]]
+            then
+                return 0
+            fi
+        done
     done
+    return 1
+}
 
-    echo Error: mode not found try I or D or -h
-    exit 1
+run(){
+    val_in_arr 'i' 'interactive'; interactive=$?
+    val_in_arr 'd' 'developer'; developer=$?
+    if [ $interactive -eq 0 ] ; then
+        echo Running in interactive mode
+        init_viewer &&
+            init_example &&
+            python3 viewer/viewer.py "${arr[@]}" &
+        tmux split-window -h "vim viewer/__viewer_cache__/example.cpp"
+        vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp viewer/__viewer_cache__/out.txt &&
+            ./scripts/clean.sh
+    elif [ $developer -eq 0 ]; then
+        echo Running in developer mode
+        init_viewer &&
+            python3 viewer/viewer.py "${arr[@]}" &
+        vim -n -S "scripts/cmds.vim" -R -M -o viewer/__viewer_cache__/cmp_exp viewer/__viewer_cache__/out.txt &&
+            ./scripts/clean.sh
+    else
+        echo Unknown mode passing raw args to viewer.py
+        python3 viewer/viewer.py "${arr[@]}"
+    fi
 }
 
 run
