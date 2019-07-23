@@ -101,7 +101,7 @@ def main():
             sys.exit(0)
             close_logger()
         except Exception as e:
-            logger.info('Caught exception: {0}'.format(str(e.message)))
+            logger.info('Caught exception: {0}'.format(str(e)))
             logger.error(traceback.format_exc())
             trys -= 1
             if trys == 0:

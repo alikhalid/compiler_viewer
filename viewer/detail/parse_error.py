@@ -7,14 +7,23 @@ import re
 
 class ParseError:
     def __init__(self, args):
+        """
+        Parses the compiler error and returns a cleaned
+        more redable version of it
+        """
         self.__disable = args['disable_parsing']
         self.__logger = get_logger()
         self.__log_info()
 
     def __log_info(self):
+        """Log basic info"""
         self.__logger.info('Init ParseError')
 
     def __parse_error_str(self, err_str):
+        """
+        Parses the error string based on pattern.
+        Extracts file name, line no and the error message
+        """
         pattern = r'(.*):(\d+):(\d+):\s+error:(.*)$'
         m = re.match(pattern, err_str)
         return '\n\nIn file   : {0}\nOn line   : {1}\nerror     :{2}'.format(
@@ -23,6 +32,13 @@ class ParseError:
         # :{3}'.format(m.group(1), m.group(2), m.group(3), m.group(4))
 
     def __call__(self, err_strs):
+        """
+        Goes through every line of the output and looks for
+        the error parrern, if found parses it and adds it to a
+        list. Lines following the error messages that are
+        indented contain information about the error so we keep
+        those as well
+        """
         if (self.__disable):
             return err_strs
 
