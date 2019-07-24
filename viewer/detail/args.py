@@ -124,7 +124,6 @@ def cmd_args():
     parser_interactive.add_argument(
         '-i',
         '--include-dir',
-        type=list,
         required=False,
         nargs='*',
         default=[],
